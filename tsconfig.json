@@ -1,0 +1,17 @@
+{
+    "include": [
+        "src/ts/**/*"
+    ],
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "moduleResolution": "node",
+        "declaration": true,
+        "declarationDir": "build/types",
+        "baseUrl": ".",
+        "skipLibCheck": true,
+        "paths": {
+            "cannon" : ["src/lib/cannon/cannon"]
+        }
+    }
+}
