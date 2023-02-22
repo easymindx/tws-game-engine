@@ -1,17 +1,32 @@
 {
-    "include": [
-        "src/ts/**/*"
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "moduleResolution": "node",
-        "declaration": true,
-        "declarationDir": "build/types",
-        "baseUrl": ".",
-        "skipLibCheck": true,
-        "paths": {
-            "cannon" : ["src/lib/cannon/cannon"]
-        }
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "target": "ESNext",
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "cannon": [
+        "./src/lib/cannon/cannon"
+      ]
     }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
