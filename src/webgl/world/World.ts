@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon';
 import Swal from 'sweetalert2';
-import * as $ from 'jquery';
 
 import { CameraOperator } from '../core/CameraOperator';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
@@ -160,6 +159,7 @@ export class World
 			{
 				this.update(1, 1);
 				this.setTimeScale(1);
+				UIManager.setUserInterfaceVisible(true);
 			};
 			loadingManager.loadGLTF(worldScenePath, (gltf) =>
 				{

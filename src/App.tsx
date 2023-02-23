@@ -20,7 +20,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <div id="loading-screen">
         <div id="loading-screen-background"></div>
         <h1 id="main-title" className="sb-font">Web Social Media Game</h1>
@@ -32,7 +32,7 @@ const App = () => {
           <div id="controls" className="panel-segment flex-bottom"></div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default App;
