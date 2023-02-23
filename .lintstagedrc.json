@@ -1,0 +1,8 @@
+{
+  "*.{js,jsx,ts,tsx}": [
+    "prettier --write"
+  ],
+  "*.{css}": [
+    "prettier --write"
+  ]
+}
