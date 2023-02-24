@@ -5,7 +5,7 @@ import { WaterShader } from '../../lib/shaders/WaterShader';
 import { IUpdatable } from '../interfaces/IUpdatable';
 
 export class Ocean implements IUpdatable {
-  public updateOrder: number = 10;
+  public updateOrder = 10;
   public material: THREE.ShaderMaterial;
 
   private world: World;
@@ -13,7 +13,7 @@ export class Ocean implements IUpdatable {
   constructor(object: any, world: World) {
     this.world = world;
 
-    let uniforms = THREE.UniformsUtils.clone(WaterShader.uniforms);
+    const uniforms = THREE.UniformsUtils.clone(WaterShader.uniforms);
     uniforms.iResolution.value.x = window.innerWidth;
     uniforms.iResolution.value.y = window.innerHeight;
 

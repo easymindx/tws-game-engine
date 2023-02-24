@@ -13,7 +13,7 @@ export class FollowTarget implements ICharacterAI {
   public target: THREE.Object3D;
   private stopDistance: number;
 
-  constructor(target: THREE.Object3D, stopDistance: number = 1.3) {
+  constructor(target: THREE.Object3D, stopDistance = 1.3) {
     this.target = target;
     this.stopDistance = stopDistance;
   }
@@ -24,13 +24,13 @@ export class FollowTarget implements ICharacterAI {
 
   public update(timeStep: number): void {
     if (this.character.controlledObject !== undefined) {
-      let source = new THREE.Vector3();
-      let target = new THREE.Vector3();
+      const source = new THREE.Vector3();
+      const target = new THREE.Vector3();
 
       this.character.getWorldPosition(source);
       this.target.getWorldPosition(target);
 
-      let viewVector = new THREE.Vector3().subVectors(target, source);
+      const viewVector = new THREE.Vector3().subVectors(target, source);
 
       // Follow character
       if (viewVector.length() > this.stopDistance) {
@@ -39,22 +39,22 @@ export class FollowTarget implements ICharacterAI {
         this.isTargetReached = true;
       }
 
-      let forward = new THREE.Vector3(0, 0, 1).applyQuaternion(
+      const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(
         (this.character.controlledObject as unknown as THREE.Object3D)
           .quaternion,
       );
       viewVector.y = 0;
       viewVector.normalize();
-      let angle = Utils.getSignedAngleBetweenVectors(forward, viewVector);
+      const angle = Utils.getSignedAngleBetweenVectors(forward, viewVector);
 
-      let goingForward =
+      const goingForward =
         forward.dot(
           Utils.threeVector(
             (this.character.controlledObject as unknown as Vehicle).collision
               .velocity,
           ),
         ) > 0;
-      let speed = (
+      const speed = (
         this.character.controlledObject as unknown as Vehicle
       ).collision.velocity.length();
 
@@ -89,7 +89,7 @@ export class FollowTarget implements ICharacterAI {
         this.character.controlledObject.triggerAction('right', false);
       }
     } else {
-      let viewVector = new THREE.Vector3().subVectors(
+      const viewVector = new THREE.Vector3().subVectors(
         this.target.position,
         this.character.position,
       );

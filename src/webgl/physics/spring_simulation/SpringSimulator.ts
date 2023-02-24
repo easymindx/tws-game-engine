@@ -13,8 +13,8 @@ export class SpringSimulator extends SimulatorBase {
     fps: number,
     mass: number,
     damping: number,
-    startPosition: number = 0,
-    startVelocity: number = 0,
+    startPosition = 0,
+    startVelocity = 0,
   ) {
     // Construct base
     super(fps, mass, damping);

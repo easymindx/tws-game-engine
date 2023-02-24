@@ -33,15 +33,15 @@ export class ExitingAirplane extends ExitingStateBase {
       this.character.setState(new Falling(this.character));
       this.character.leaveSeat();
     } else {
-      let beginningCutoff = 0.3;
-      let factor = THREE.MathUtils.clamp(
+      const beginningCutoff = 0.3;
+      const factor = THREE.MathUtils.clamp(
         (this.timer / this.animationLength - beginningCutoff) *
           (1 / (1 - beginningCutoff)),
         0,
         1,
       );
-      let smoothFactor = Utils.easeOutQuad(factor);
-      let lerpPosition = new THREE.Vector3().lerpVectors(
+      const smoothFactor = Utils.easeOutQuad(factor);
+      const lerpPosition = new THREE.Vector3().lerpVectors(
         this.startPosition,
         this.endPosition,
         smoothFactor,

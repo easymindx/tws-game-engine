@@ -4,24 +4,24 @@ import { EntityType } from '../enums/EntityType';
 import { World } from '../world/World';
 
 export class InfoStack implements IWorldEntity {
-  public updateOrder: number = 3;
+  public updateOrder = 3;
   public entityType: EntityType = EntityType.System;
 
   public messages: InfoStackMessage[] = [];
-  public entranceAnimation: string = 'animate__slideInLeft';
-  public exitAnimation: string = 'animate__backOutDown';
+  public entranceAnimation = 'animate__slideInLeft';
+  public exitAnimation = 'animate__backOutDown';
 
-  public messageDuration: number = 3;
+  public messageDuration = 3;
 
   public addMessage(text: string): void {
-    let messageElement = document.createElement('div');
+    const messageElement = document.createElement('div');
     messageElement.classList.add(
       'console-message',
       'animate__animated',
       this.entranceAnimation,
     );
     messageElement.style.setProperty('--animate-duration', '0.3s');
-    let textElement = document.createTextNode(text);
+    const textElement = document.createTextNode(text);
     messageElement.appendChild(textElement);
     document.getElementById('console').prepend(messageElement);
     this.messages.push(new InfoStackMessage(this, messageElement));

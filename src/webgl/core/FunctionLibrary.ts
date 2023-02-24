@@ -8,23 +8,23 @@ import { Object3D } from 'three';
 import { Space } from '../enums/Space';
 
 export function createCapsuleGeometry(
-  radius: number = 1,
-  height: number = 2,
-  N: number = 32,
+  radius = 1,
+  height = 2,
+  N = 32,
 ): THREE.Geometry {
   const geometry = new THREE.Geometry();
   const TWOPI = Math.PI * 2;
-  const PID2 = 1.570796326794896619231322;
+  const PID2 = Math.PI / 2;
 
   const normals = [];
 
   // top cap
   for (let i = 0; i <= N / 4; i++) {
     for (let j = 0; j <= N; j++) {
-      let theta = (j * TWOPI) / N;
-      let phi = -PID2 + (Math.PI * i) / (N / 2);
-      let vertex = new THREE.Vector3();
-      let normal = new THREE.Vector3();
+      const theta = (j * TWOPI) / N;
+      const phi = -PID2 + (Math.PI * i) / (N / 2);
+      const vertex = new THREE.Vector3();
+      const normal = new THREE.Vector3();
       vertex.x = radius * Math.cos(phi) * Math.cos(theta);
       vertex.y = radius * Math.cos(phi) * Math.sin(theta);
       vertex.z = radius * Math.sin(phi);
@@ -40,10 +40,10 @@ export function createCapsuleGeometry(
   // bottom cap
   for (let i = N / 4; i <= N / 2; i++) {
     for (let j = 0; j <= N; j++) {
-      let theta = (j * TWOPI) / N;
-      let phi = -PID2 + (Math.PI * i) / (N / 2);
-      let vertex = new THREE.Vector3();
-      let normal = new THREE.Vector3();
+      const theta = (j * TWOPI) / N;
+      const phi = -PID2 + (Math.PI * i) / (N / 2);
+      const vertex = new THREE.Vector3();
+      const normal = new THREE.Vector3();
       vertex.x = radius * Math.cos(phi) * Math.cos(theta);
       vertex.y = radius * Math.cos(phi) * Math.sin(theta);
       vertex.z = radius * Math.sin(phi);
@@ -58,7 +58,7 @@ export function createCapsuleGeometry(
 
   for (let i = 0; i <= N / 2; i++) {
     for (let j = 0; j < N; j++) {
-      let vec = new THREE.Vector4(
+      const vec = new THREE.Vector4(
         i * (N + 1) + j,
         i * (N + 1) + (j + 1),
         (i + 1) * (N + 1) + (j + 1),
@@ -66,13 +66,13 @@ export function createCapsuleGeometry(
       );
 
       if (i === N / 4) {
-        let face1 = new THREE.Face3(vec.x, vec.y, vec.z, [
+        const face1 = new THREE.Face3(vec.x, vec.y, vec.z, [
           normals[vec.x],
           normals[vec.y],
           normals[vec.z],
         ]);
 
-        let face2 = new THREE.Face3(vec.x, vec.z, vec.w, [
+        const face2 = new THREE.Face3(vec.x, vec.z, vec.w, [
           normals[vec.x],
           normals[vec.z],
           normals[vec.w],
@@ -81,13 +81,13 @@ export function createCapsuleGeometry(
         geometry.faces.push(face2);
         geometry.faces.push(face1);
       } else {
-        let face1 = new THREE.Face3(vec.x, vec.y, vec.z, [
+        const face1 = new THREE.Face3(vec.x, vec.y, vec.z, [
           normals[vec.x],
           normals[vec.y],
           normals[vec.z],
         ]);
 
-        let face2 = new THREE.Face3(vec.x, vec.z, vec.w, [
+        const face2 = new THREE.Face3(vec.x, vec.z, vec.w, [
           normals[vec.x],
           normals[vec.z],
           normals[vec.w],
@@ -125,13 +125,13 @@ export function appplyVectorMatrixXZ(
   return new THREE.Vector3(a.x * b.z + a.z * b.x, b.y, a.z * b.z + -a.x * b.x);
 }
 
-export function round(value: number, decimals: number = 0): number {
+export function round(value: number, decimals = 0): number {
   return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 }
 
 export function roundVector(
   vector: THREE.Vector3,
-  decimals: number = 0,
+  decimals = 0,
 ): THREE.Vector3 {
   return new THREE.Vector3(
     this.round(vector.x, decimals),
@@ -148,10 +148,10 @@ export function roundVector(
 export function getAngleBetweenVectors(
   v1: THREE.Vector3,
   v2: THREE.Vector3,
-  dotTreshold: number = 0.0005,
+  dotTreshold = 0.0005,
 ): number {
   let angle: number;
-  let dot = v1.dot(v2);
+  const dot = v1.dot(v2);
 
   // If dot is close to 1, we'll round angle to zero
   if (dot > 1 - dotTreshold) {
@@ -176,12 +176,12 @@ export function getSignedAngleBetweenVectors(
   v1: THREE.Vector3,
   v2: THREE.Vector3,
   normal: THREE.Vector3 = new THREE.Vector3(0, 1, 0),
-  dotTreshold: number = 0.0005,
+  dotTreshold = 0.0005,
 ): number {
   let angle = this.getAngleBetweenVectors(v1, v2, dotTreshold);
 
   // Get vector pointing up or down
-  let cross = new THREE.Vector3().crossVectors(v1, v2);
+  const cross = new THREE.Vector3().crossVectors(v1, v2);
   // Compare cross with normal to find out direction
   if (normal.dot(cross) < 0) {
     angle = -angle;
@@ -206,10 +206,10 @@ export function setDefaults(options: {}, defaults: {}): {} {
   return _.defaults({}, _.clone(options), defaults);
 }
 
-export function getGlobalProperties(prefix: string = ''): any[] {
-  let keyValues = [];
-  let global = window; // window for browser environments
-  for (let prop in global) {
+export function getGlobalProperties(prefix = ''): any[] {
+  const keyValues = [];
+  const global = window; // window for browser environments
+  for (const prop in global) {
     // check the prefix
     if (prop.indexOf(prefix) === 0) {
       keyValues.push(prop /*+ "=" + global[prop]*/);
@@ -230,7 +230,7 @@ export function spring(
   velocity += acceleration;
   velocity *= damping;
 
-  let position = source + velocity;
+  const position = source + velocity;
 
   return new SimulationFrame(position, velocity);
 }
@@ -242,7 +242,7 @@ export function springV(
   mass: number,
   damping: number,
 ): void {
-  let acceleration = new THREE.Vector3().subVectors(dest, source);
+  const acceleration = new THREE.Vector3().subVectors(dest, source);
   acceleration.divideScalar(mass);
   velocity.add(acceleration);
   velocity.multiplyScalar(damping);
@@ -270,7 +270,7 @@ export function setupMeshProperties(child: any): void {
   child.receiveShadow = true;
 
   if (child.material.map !== null) {
-    let mat = new THREE.MeshPhongMaterial();
+    const mat = new THREE.MeshPhongMaterial();
     mat.shininess = 0;
     mat.name = child.material.name;
     mat.map = child.material.map;

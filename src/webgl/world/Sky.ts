@@ -6,7 +6,7 @@ import { IUpdatable } from '../interfaces/IUpdatable';
 import { default as CSM } from 'three-csm';
 
 export class Sky extends THREE.Object3D implements IUpdatable {
-  public updateOrder: number = 5;
+  public updateOrder = 5;
 
   public sunPosition: THREE.Vector3 = new THREE.Vector3();
   public csm: CSM;
@@ -22,12 +22,12 @@ export class Sky extends THREE.Object3D implements IUpdatable {
     this.refreshHemiIntensity();
   }
 
-  private _phi: number = 50;
-  private _theta: number = 145;
+  private _phi = 50;
+  private _theta = 145;
 
   private hemiLight: THREE.HemisphereLight;
-  private maxHemiIntensity: number = 0.9;
-  private minHemiIntensity: number = 0.3;
+  private maxHemiIntensity = 0.9;
+  private minHemiIntensity = 0.3;
 
   private skyMesh: THREE.Mesh;
   private skyMaterial: THREE.ShaderMaterial;
@@ -73,8 +73,8 @@ export class Sky extends THREE.Object3D implements IUpdatable {
     // };
 
     // Legacy
-    let splitsCallback = (amount, near, far) => {
-      let arr = [];
+    const splitsCallback = (amount, near, far) => {
+      const arr = [];
 
       for (let i = amount - 1; i >= 0; i--) {
         arr.push(Math.pow(1 / 4, i));

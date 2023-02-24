@@ -14,7 +14,7 @@ export class TrimeshCollider implements ICollider {
   constructor(mesh: Object3D, options: any) {
     this.mesh = mesh.clone();
 
-    let defaults = {
+    const defaults = {
       mass: 0,
       position: mesh.position,
       rotation: mesh.quaternion,
@@ -23,15 +23,15 @@ export class TrimeshCollider implements ICollider {
     options = Utils.setDefaults(options, defaults);
     this.options = options;
 
-    let mat = new CANNON.Material('triMat');
+    const mat = new CANNON.Material('triMat');
     mat.friction = options.friction;
     // mat.restitution = 0.7;
 
-    let shape = threeToCannon(this.mesh, { type: threeToCannon.Type.MESH });
+    const shape = threeToCannon(this.mesh, { type: threeToCannon.Type.MESH });
     // shape['material'] = mat;
 
     // Add phys sphere
-    let physBox = new CANNON.Body({
+    const physBox = new CANNON.Body({
       mass: options.mass,
       position: options.position,
       quaternion: options.rotation,

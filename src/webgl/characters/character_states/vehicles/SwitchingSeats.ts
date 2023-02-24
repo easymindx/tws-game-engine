@@ -63,10 +63,10 @@ export class SwitchingSeats extends CharacterStateBase {
         this.character.setState(new Sitting(this.character, this.toSeat));
       }
     } else {
-      let factor = this.timer / this.animationLength;
-      let sineFactor = Utils.easeInOutSine(factor);
+      const factor = this.timer / this.animationLength;
+      const sineFactor = Utils.easeInOutSine(factor);
 
-      let lerpPosition = new THREE.Vector3().lerpVectors(
+      const lerpPosition = new THREE.Vector3().lerpVectors(
         this.startPosition,
         this.endPosition,
         sineFactor,

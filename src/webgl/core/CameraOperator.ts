@@ -8,35 +8,35 @@ import _ from 'lodash';
 import { IUpdatable } from '../interfaces/IUpdatable';
 
 export class CameraOperator implements IInputReceiver, IUpdatable {
-  public updateOrder: number = 4;
+  public updateOrder = 4;
 
   public world: World;
   public camera: THREE.Camera;
   public target: THREE.Vector3;
   public sensitivity: THREE.Vector2;
-  public radius: number = 1;
+  public radius = 1;
   public theta: number;
   public phi: number;
   public onMouseDownPosition: THREE.Vector2;
   public onMouseDownTheta: any;
   public onMouseDownPhi: any;
-  public targetRadius: number = 1;
+  public targetRadius = 1;
 
   public movementSpeed: number;
   public actions: { [action: string]: KeyBinding };
 
-  public upVelocity: number = 0;
-  public forwardVelocity: number = 0;
-  public rightVelocity: number = 0;
+  public upVelocity = 0;
+  public forwardVelocity = 0;
+  public rightVelocity = 0;
 
-  public followMode: boolean = false;
+  public followMode = false;
 
   public characterCaller: Character;
 
   constructor(
     world: World,
     camera: THREE.Camera,
-    sensitivityX: number = 1,
+    sensitivityX = 1,
     sensitivityY: number = sensitivityX * 0.8,
   ) {
     this.world = world;
@@ -73,7 +73,7 @@ export class CameraOperator implements IInputReceiver, IUpdatable {
     this.sensitivity = new THREE.Vector2(sensitivityX, sensitivityY);
   }
 
-  public setRadius(value: number, instantly: boolean = false): void {
+  public setRadius(value: number, instantly = false): void {
     this.targetRadius = Math.max(0.001, value);
     if (instantly === true) {
       this.radius = value;
@@ -95,7 +95,7 @@ export class CameraOperator implements IInputReceiver, IUpdatable {
         Number.POSITIVE_INFINITY,
       );
       this.camera.lookAt(this.target);
-      let newPos = this.target
+      const newPos = this.target
         .clone()
         .add(
           new THREE.Vector3()
@@ -205,7 +205,7 @@ export class CameraOperator implements IInputReceiver, IUpdatable {
 
   public inputReceiverUpdate(timeStep: number): void {
     // Set fly speed
-    let speed =
+    const speed =
       this.movementSpeed *
       (this.actions.fast.isPressed ? timeStep * 600 : timeStep * 60);
 

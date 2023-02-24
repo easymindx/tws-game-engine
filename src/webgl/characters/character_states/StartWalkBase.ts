@@ -61,7 +61,7 @@ export class StartWalkBase extends CharacterStateBase {
 
     if (this.noDirection()) {
       if (this.timer < 0.1) {
-        let angle = Utils.getSignedAngleBetweenVectors(
+        const angle = Utils.getSignedAngleBetweenVectors(
           this.character.orientation,
           this.character.orientationTarget,
         );

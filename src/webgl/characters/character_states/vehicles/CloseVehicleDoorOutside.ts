@@ -7,7 +7,7 @@ import * as Utils from '../../../core/FunctionLibrary';
 
 export class CloseVehicleDoorOutside extends CharacterStateBase {
   private seat: VehicleSeat;
-  private hasClosedDoor: boolean = false;
+  private hasClosedDoor = false;
 
   constructor(character: Character, seat: VehicleSeat) {
     super(character);

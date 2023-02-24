@@ -26,11 +26,11 @@ export class VehicleSpawnPoint implements ISpawnPoint {
     loadingManager.loadGLTF(
       '/assets/models/' + this.type + '.glb',
       (model: any) => {
-        let vehicle: Vehicle = this.getNewVehicleByType(model, this.type);
+        const vehicle: Vehicle = this.getNewVehicleByType(model, this.type);
         vehicle.spawnPoint = this.object;
 
-        let worldPos = new THREE.Vector3();
-        let worldQuat = new THREE.Quaternion();
+        const worldPos = new THREE.Vector3();
+        const worldQuat = new THREE.Quaternion();
         this.object.getWorldPosition(worldPos);
         this.object.getWorldQuaternion(worldQuat);
 
@@ -40,7 +40,7 @@ export class VehicleSpawnPoint implements ISpawnPoint {
 
         if (this.driver !== undefined) {
           loadingManager.loadGLTF('/assets/models/boxman.glb', (charModel) => {
-            let character = new Character(charModel);
+            const character = new Character(charModel);
             world.add(character);
             character.teleportToVehicle(vehicle, vehicle.seats[0]);
 

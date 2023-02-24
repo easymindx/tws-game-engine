@@ -4,7 +4,7 @@
 //                 Grzegorz Rozdzialik <https://github.com/Gelio>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare module CANNON {
+declare namespace CANNON {
   export interface IAABBOptions {
     upperBound?: Vec3;
     lowerBound?: Vec3;
@@ -1066,7 +1066,7 @@ declare module CANNON {
      * @type {Number}
      * @see Shape.types
      */
-    type: Number;
+    type: number;
     /**
      * The local bounding sphere radius of this shape.
      * @property {Number} boundingSphereRadius

@@ -20,7 +20,7 @@ export class Path {
       child.userData.hasOwnProperty('data')
     ) {
       if (child.userData.data === 'pathNode') {
-        let node = new PathNode(child, this);
+        const node = new PathNode(child, this);
         this.nodes[child.name] = node;
       }
     }

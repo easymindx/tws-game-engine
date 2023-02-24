@@ -13,7 +13,7 @@ export class ClosestObjectFinder<T> {
   }
 
   public consider(object: T, objectPosition: THREE.Vector3): void {
-    let distance = this.referencePosition.distanceTo(objectPosition);
+    const distance = this.referencePosition.distanceTo(objectPosition);
 
     if (distance < this.maxDistance && distance < this.closestDistance) {
       this.closestDistance = distance;

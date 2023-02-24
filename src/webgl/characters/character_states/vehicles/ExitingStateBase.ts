@@ -57,7 +57,7 @@ export abstract class ExitingStateBase extends CharacterStateBase {
 
     this.character.world.graphicsWorld.attach(this.dummyObj);
     this.exitPoint.getWorldPosition(this.dummyObj.position);
-    let target = this.dummyObj.position.clone().add(forward);
+    const target = this.dummyObj.position.clone().add(forward);
     this.dummyObj.lookAt(target);
     this.seat.seatPointObject.parent.attach(this.dummyObj);
     this.endRotation.copy(this.dummyObj.quaternion);

@@ -14,7 +14,7 @@ import { EntityType } from '../enums/EntityType';
 import { IWorldEntity } from '../interfaces/IWorldEntity';
 
 export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
-  public updateOrder: number = 2;
+  public updateOrder = 2;
   public abstract entityType: EntityType;
 
   public controllingCharacter: Character;
@@ -31,7 +31,7 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
   public spawnPoint: THREE.Object3D;
   private modelContainer: THREE.Group;
 
-  private firstPerson: boolean = false;
+  private firstPerson = false;
 
   constructor(gltf: any, handlingSetup?: any) {
     super();
@@ -42,7 +42,7 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
     handlingSetup.directionLocal = new CANNON.Vec3(0, -1, 0);
 
     // Physics mat
-    let mat = new CANNON.Material('Mat');
+    const mat = new CANNON.Material('Mat');
     mat.friction = 0.01;
 
     // Collision body
@@ -102,13 +102,13 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
 
     for (let i = 0; i < this.rayCastVehicle.wheelInfos.length; i++) {
       this.rayCastVehicle.updateWheelTransform(i);
-      let transform = this.rayCastVehicle.wheelInfos[i].worldTransform;
+      const transform = this.rayCastVehicle.wheelInfos[i].worldTransform;
 
-      let wheelObject = this.wheels[i].wheelObject;
+      const wheelObject = this.wheels[i].wheelObject;
       wheelObject.position.copy(Utils.threeVector(transform.position));
       wheelObject.quaternion.copy(Utils.threeQuat(transform.quaternion));
 
-      let upAxisWorld = new CANNON.Vec3();
+      const upAxisWorld = new CANNON.Vec3();
       this.rayCastVehicle.getVehicleAxisWorld(
         this.rayCastVehicle.indexUpAxis,
         upAxisWorld,
@@ -199,7 +199,7 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
 
   public triggerAction(actionName: string, value: boolean): void {
     // Get action and set it's parameters
-    let action = this.actions[actionName];
+    const action = this.actions[actionName];
 
     if (action.isPressed !== value) {
       // Set value
@@ -254,7 +254,7 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
       //     this.position.z + this.camera.position.z
       // );
 
-      let temp = new THREE.Vector3().copy(this.camera.position);
+      const temp = new THREE.Vector3().copy(this.camera.position);
       temp.applyQuaternion(this.quaternion);
       this.world.cameraOperator.target.copy(temp.add(this.position));
     } else {
@@ -364,7 +364,7 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
             if (child.userData.shape === 'box') {
               child.visible = false;
 
-              let phys = new CANNON.Box(
+              const phys = new CANNON.Box(
                 new CANNON.Vec3(child.scale.x, child.scale.y, child.scale.z),
               );
               phys.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
@@ -379,7 +379,7 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
             } else if (child.userData.shape === 'sphere') {
               child.visible = false;
 
-              let phys = new CANNON.Sphere(child.scale.x);
+              const phys = new CANNON.Sphere(child.scale.x);
               phys.collisionFilterGroup = CollisionGroups.TrimeshColliders;
               this.collision.addShape(
                 phys,
@@ -412,7 +412,7 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
     for (const firstSeat of this.seats) {
       if (firstSeat.connectedSeatsString !== undefined) {
         // Get list of connected seat names
-        let conn_seat_names = firstSeat.connectedSeatsString.split(';');
+        const conn_seat_names = firstSeat.connectedSeatsString.split(';');
         for (const conn_seat_name of conn_seat_names) {
           // If name not empty
           if (conn_seat_name.length > 0) {

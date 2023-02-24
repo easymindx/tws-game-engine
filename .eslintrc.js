@@ -21,5 +21,6 @@ module.exports = {
   // Fine tune rules
   rules: {
     '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/no-explicit-any': 0,
   },
 };

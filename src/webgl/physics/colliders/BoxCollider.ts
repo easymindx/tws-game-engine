@@ -9,7 +9,7 @@ export class BoxCollider implements ICollider {
   public debugModel: THREE.Mesh;
 
   constructor(options: any) {
-    let defaults = {
+    const defaults = {
       mass: 0,
       position: new THREE.Vector3(),
       size: new THREE.Vector3(0.3, 0.3, 0.3),
@@ -29,15 +29,15 @@ export class BoxCollider implements ICollider {
       options.size.z,
     );
 
-    let mat = new CANNON.Material('boxMat');
+    const mat = new CANNON.Material('boxMat');
     mat.friction = options.friction;
     // mat.restitution = 0.7;
 
-    let shape = new CANNON.Box(options.size);
+    const shape = new CANNON.Box(options.size);
     // shape.material = mat;
 
     // Add phys sphere
-    let physBox = new CANNON.Body({
+    const physBox = new CANNON.Body({
       mass: options.mass,
       position: options.position,
       shape,

@@ -11,7 +11,7 @@ import { SpringSimulator } from '../../../physics/spring_simulation/SpringSimula
 export class OpenVehicleDoor extends CharacterStateBase {
   private seat: VehicleSeat;
   private entryPoint: THREE.Object3D;
-  private hasOpenedDoor: boolean = false;
+  private hasOpenedDoor = false;
 
   private startPosition: THREE.Vector3 = new THREE.Vector3();
   private endPosition: THREE.Vector3 = new THREE.Vector3();
@@ -78,7 +78,7 @@ export class OpenVehicleDoor extends CharacterStateBase {
     } else {
       this.factorSimluator.simulate(timeStep);
 
-      let lerpPosition = new THREE.Vector3().lerpVectors(
+      const lerpPosition = new THREE.Vector3().lerpVectors(
         this.startPosition,
         this.endPosition,
         this.factorSimluator.position,

@@ -4,7 +4,7 @@ import { EntityType } from '../enums/EntityType';
 import { IUpdatable } from '../interfaces/IUpdatable';
 
 export class InputManager implements IUpdatable {
-  public updateOrder: number = 3;
+  public updateOrder = 3;
 
   public world: World;
   public domElement: any;

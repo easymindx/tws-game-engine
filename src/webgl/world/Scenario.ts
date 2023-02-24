@@ -7,15 +7,15 @@ import { LoadingManager } from '../core/LoadingManager';
 export class Scenario {
   public id: string;
   public name: string;
-  public spawnAlways: boolean = false;
-  public default: boolean = false;
+  public spawnAlways = false;
+  public default = false;
   public world: World;
   public descriptionTitle: string;
   public descriptionContent: string;
 
   private rootNode: THREE.Object3D;
   private spawnPoints: ISpawnPoint[] = [];
-  private invisible: boolean = false;
+  private invisible = false;
   private initialCameraAngle: number;
 
   constructor(root: THREE.Object3D, world: World) {
@@ -69,7 +69,7 @@ export class Scenario {
             child.userData.type === 'airplane' ||
             child.userData.type === 'heli'
           ) {
-            let sp = new VehicleSpawnPoint(child);
+            const sp = new VehicleSpawnPoint(child);
 
             if (child.userData.hasOwnProperty('type')) {
               sp.type = child.userData.type;
@@ -88,7 +88,7 @@ export class Scenario {
 
             this.spawnPoints.push(sp);
           } else if (child.userData.type === 'player') {
-            let sp = new CharacterSpawnPoint(child);
+            const sp = new CharacterSpawnPoint(child);
             this.spawnPoints.push(sp);
           }
         }

@@ -12,7 +12,7 @@ import { EntityType } from '../enums/EntityType';
 export class Helicopter extends Vehicle implements IControllable, IWorldEntity {
   public entityType: EntityType = EntityType.Helicopter;
   public rotors: THREE.Object3D[] = [];
-  private enginePower: number = 0;
+  private enginePower = 0;
 
   constructor(gltf: any) {
     super(gltf);
@@ -39,7 +39,7 @@ export class Helicopter extends Vehicle implements IControllable, IWorldEntity {
   }
 
   public noDirectionPressed(): boolean {
-    let result =
+    const result =
       !this.actions.ascend.isPressed && !this.actions.descend.isPressed;
 
     return result;
@@ -77,11 +77,11 @@ export class Helicopter extends Vehicle implements IControllable, IWorldEntity {
   }
 
   public physicsPreStep(body: CANNON.Body, heli: Helicopter): void {
-    let quat = Utils.threeQuat(body.quaternion);
-    let right = new THREE.Vector3(1, 0, 0).applyQuaternion(quat);
-    let globalUp = new THREE.Vector3(0, 1, 0);
-    let up = new THREE.Vector3(0, 1, 0).applyQuaternion(quat);
-    let forward = new THREE.Vector3(0, 0, 1).applyQuaternion(quat);
+    const quat = Utils.threeQuat(body.quaternion);
+    const right = new THREE.Vector3(1, 0, 0).applyQuaternion(quat);
+    const globalUp = new THREE.Vector3(0, 1, 0);
+    const up = new THREE.Vector3(0, 1, 0).applyQuaternion(quat);
+    const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(quat);
 
     // Throttle
     if (heli.actions.ascend.isPressed) {
@@ -96,7 +96,7 @@ export class Helicopter extends Vehicle implements IControllable, IWorldEntity {
     }
 
     // Vertical stabilization
-    let gravity = heli.world.physicsWorld.gravity;
+    const gravity = heli.world.physicsWorld.gravity;
     let gravityCompensation = new CANNON.Vec3(
       -gravity.x,
       -gravity.y,
@@ -104,13 +104,13 @@ export class Helicopter extends Vehicle implements IControllable, IWorldEntity {
     ).length();
     gravityCompensation *= heli.world.physicsFrameTime;
     gravityCompensation *= 0.98;
-    let dot = globalUp.dot(up);
+    const dot = globalUp.dot(up);
     gravityCompensation *= Math.sqrt(THREE.MathUtils.clamp(dot, 0, 1));
 
-    let vertDamping = new THREE.Vector3(0, body.velocity.y, 0).multiplyScalar(
+    const vertDamping = new THREE.Vector3(0, body.velocity.y, 0).multiplyScalar(
       -0.01,
     );
-    let vertStab = up.clone();
+    const vertStab = up.clone();
     vertStab.multiplyScalar(gravityCompensation);
     vertStab.add(vertDamping);
     vertStab.multiplyScalar(heli.enginePower);
@@ -125,7 +125,7 @@ export class Helicopter extends Vehicle implements IControllable, IWorldEntity {
 
     // Rotation stabilization
     if (this.controllingCharacter !== undefined) {
-      let rotStabVelocity = new THREE.Quaternion().setFromUnitVectors(
+      const rotStabVelocity = new THREE.Quaternion().setFromUnitVectors(
         up,
         globalUp,
       );
@@ -133,7 +133,7 @@ export class Helicopter extends Vehicle implements IControllable, IWorldEntity {
       rotStabVelocity.y *= 0.3;
       rotStabVelocity.z *= 0.3;
       rotStabVelocity.w *= 0.3;
-      let rotStabEuler = new THREE.Euler().setFromQuaternion(rotStabVelocity);
+      const rotStabEuler = new THREE.Euler().setFromQuaternion(rotStabVelocity);
 
       body.angularVelocity.x += rotStabEuler.x * this.enginePower;
       body.angularVelocity.y += rotStabEuler.y * this.enginePower;

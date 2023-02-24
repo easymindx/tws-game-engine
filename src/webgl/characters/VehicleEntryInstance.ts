@@ -6,22 +6,22 @@ export class VehicleEntryInstance {
   public character: Character;
   public targetSeat: VehicleSeat;
   public entryPoint: THREE.Object3D;
-  public wantsToDrive: boolean = false;
+  public wantsToDrive = false;
 
   constructor(character: Character) {
     this.character = character;
   }
 
   public update(timeStep: number): void {
-    let entryPointWorldPos = new THREE.Vector3();
+    const entryPointWorldPos = new THREE.Vector3();
     this.entryPoint.getWorldPosition(entryPointWorldPos);
-    let viewVector = new THREE.Vector3().subVectors(
+    const viewVector = new THREE.Vector3().subVectors(
       entryPointWorldPos,
       this.character.position,
     );
     this.character.setOrientation(viewVector);
 
-    let heightDifference = viewVector.y;
+    const heightDifference = viewVector.y;
     viewVector.y = 0;
     if (
       this.character.charState.canEnterVehicles &&

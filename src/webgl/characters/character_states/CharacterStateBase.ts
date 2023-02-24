@@ -138,8 +138,8 @@ export abstract class CharacterStateBase implements ICharacterState {
   }
 
   public setAppropriateStartWalkState(): void {
-    let range = Math.PI;
-    let angle = Utils.getSignedAngleBetweenVectors(
+    const range = Math.PI;
+    const angle = Utils.getSignedAngleBetweenVectors(
       this.character.orientation,
       this.character.getCameraRelativeMovementVector(),
     );

@@ -52,7 +52,7 @@ export class World {
   public params: any;
   public inputManager: InputManager;
   public cameraOperator: CameraOperator;
-  public timeScaleTarget: number = 1;
+  public timeScaleTarget = 1;
   public console: InfoStack;
   public cannonDebugRenderer: CannonDebugRenderer;
   public scenarios: Scenario[] = [];
@@ -117,11 +117,11 @@ export class World {
     );
 
     // Passes
-    let renderPass = new RenderPass(this.graphicsWorld, this.camera);
-    let fxaaPass = new ShaderPass(FXAAShader);
+    const renderPass = new RenderPass(this.graphicsWorld, this.camera);
+    const fxaaPass = new ShaderPass(FXAAShader);
 
     // FXAA
-    let pixelRatio = this.renderer.getPixelRatio();
+    const pixelRatio = this.renderer.getPixelRatio();
     fxaaPass.material['uniforms'].resolution.value.x =
       1 / (window.innerWidth * pixelRatio);
     fxaaPass.material['uniforms'].resolution.value.y =
@@ -167,7 +167,7 @@ export class World {
 
     // Load scene if path is supplied
     if (worldScenePath !== undefined) {
-      let loadingManager = new LoadingManager(this);
+      const loadingManager = new LoadingManager(this);
       loadingManager.onFinishedCallback = () => {
         this.update(1, 1);
         this.setTimeScale(1);
@@ -217,7 +217,7 @@ export class World {
 
     this.vehicles.forEach((vehicle) => {
       if (this.isOutOfBounds(vehicle.rayCastVehicle.chassisBody.position)) {
-        let worldPos = new THREE.Vector3();
+        const worldPos = new THREE.Vector3();
         vehicle.spawnPoint.getWorldPosition(worldPos);
         worldPos.y += 1;
         this.outOfBoundsRespawn(
@@ -229,20 +229,20 @@ export class World {
   }
 
   public isOutOfBounds(position: CANNON.Vec3): boolean {
-    let inside =
+    const inside =
       position.x > -211.882 &&
       position.x < 211.882 &&
       position.z > -169.098 &&
       position.z < 153.232 &&
       position.y > 0.107;
-    let belowSeaLevel = position.y < 14.989;
+    const belowSeaLevel = position.y < 14.989;
 
     return !inside && belowSeaLevel;
   }
 
   public outOfBoundsRespawn(body: CANNON.Body, position?: CANNON.Vec3): void {
-    let newPos = position || new CANNON.Vec3(0, 16, 0);
-    let newQuat = new CANNON.Quaternion(0, 0, 0, 1);
+    const newPos = position || new CANNON.Vec3(0, 16, 0);
+    const newQuat = new CANNON.Quaternion(0, 0, 0, 1);
 
     body.position.copy(newPos);
     body.interpolatedPosition.copy(newPos);
@@ -266,7 +266,7 @@ export class World {
     });
 
     // Getting timeStep
-    let unscaledTimeStep =
+    const unscaledTimeStep =
       this.requestDelta + this.renderDelta + this.logicDelta;
     let timeStep = unscaledTimeStep * this.params.Time_Scale;
     timeStep = Math.min(timeStep, 1 / 30); // min 30 fps
@@ -278,7 +278,7 @@ export class World {
     this.logicDelta = this.clock.getDelta();
 
     // Frame limiting
-    let interval = 1 / 60;
+    const interval = 1 / 60;
     this.sinceLastFrame +=
       this.requestDelta + this.renderDelta + this.logicDelta;
     this.sinceLastFrame %= interval;
@@ -336,7 +336,7 @@ export class World {
             if (child.userData.hasOwnProperty('type')) {
               // Convex doesn't work! Stick to boxes!
               if (child.userData.type === 'box') {
-                let phys = new BoxCollider({
+                const phys = new BoxCollider({
                   size: new THREE.Vector3(
                     child.scale.x,
                     child.scale.y,
@@ -353,7 +353,7 @@ export class World {
 
                 this.physicsWorld.addBody(phys.body);
               } else if (child.userData.type === 'trimesh') {
-                let phys = new TrimeshCollider(child, {});
+                const phys = new TrimeshCollider(child, {});
                 this.physicsWorld.addBody(phys.body);
               }
 
@@ -484,7 +484,7 @@ export class World {
     this.scenarioGUIFolder.open();
 
     // World
-    let worldFolder = gui.addFolder('World');
+    const worldFolder = gui.addFolder('World');
     worldFolder
       .add(this.params, 'Time_Scale', 0, 1)
       .listen()
@@ -505,7 +505,7 @@ export class World {
       });
 
     // Input
-    let settingsFolder = gui.addFolder('Settings');
+    const settingsFolder = gui.addFolder('Settings');
     settingsFolder.add(this.params, 'FXAA');
     settingsFolder.add(this.params, 'Shadows').onChange((enabled) => {
       if (enabled) {

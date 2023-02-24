@@ -6,13 +6,13 @@ export class RandomBehaviour implements ICharacterAI {
   public character: Character;
   private randomFrequency: number;
 
-  constructor(randomFrequency: number = 100) {
+  constructor(randomFrequency = 100) {
     this.randomFrequency = randomFrequency;
   }
 
   public update(timeStep: number): void {
-    let rndInt = Math.floor(Math.random() * this.randomFrequency);
-    let rndBool = Math.random() > 0.5 ? true : false;
+    const rndInt = Math.floor(Math.random() * this.randomFrequency);
+    const rndBool = Math.random() > 0.5 ? true : false;
 
     if (rndInt === 0) {
       this.character.setViewVector(

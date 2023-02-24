@@ -4,8 +4,8 @@ export class InfoStackMessage {
   public domElement: HTMLElement;
 
   private customConsole: InfoStack;
-  private elapsedTime: number = 0;
-  private removalTriggered: boolean = false;
+  private elapsedTime = 0;
+  private removalTriggered = false;
 
   constructor(console: InfoStack, domElement: HTMLElement) {
     this.customConsole = console;

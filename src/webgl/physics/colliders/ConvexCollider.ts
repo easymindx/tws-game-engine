@@ -14,7 +14,7 @@ export class ConvexCollider implements ICollider {
   constructor(mesh: Object3D, options: any) {
     this.mesh = mesh.clone();
 
-    let defaults = {
+    const defaults = {
       mass: 0,
       position: mesh.position,
       friction: 0.3,
@@ -22,7 +22,7 @@ export class ConvexCollider implements ICollider {
     options = Utils.setDefaults(options, defaults);
     this.options = options;
 
-    let mat = new CANNON.Material('convMat');
+    const mat = new CANNON.Material('convMat');
     mat.friction = options.friction;
     // mat.restitution = 0.7;
 
@@ -32,19 +32,19 @@ export class ConvexCollider implements ICollider {
       );
     }
 
-    let cannonPoints = this.mesh.geometry.vertices.map((v: Vector3) => {
+    const cannonPoints = this.mesh.geometry.vertices.map((v: Vector3) => {
       return new CANNON.Vec3(v.x, v.y, v.z);
     });
 
-    let cannonFaces = this.mesh.geometry.faces.map((f: any) => {
+    const cannonFaces = this.mesh.geometry.faces.map((f: any) => {
       return [f.a, f.b, f.c];
     });
 
-    let shape = new CANNON.ConvexPolyhedron(cannonPoints, cannonFaces);
+    const shape = new CANNON.ConvexPolyhedron(cannonPoints, cannonFaces);
     // shape.material = mat;
 
     // Add phys sphere
-    let physBox = new CANNON.Body({
+    const physBox = new CANNON.Body({
       mass: options.mass,
       position: options.position,
       shape,

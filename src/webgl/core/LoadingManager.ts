@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { World } from '../world/World';
 
 export class LoadingManager {
-  public firstLoad: boolean = true;
+  public firstLoad = true;
   public onFinishedCallback: () => void;
 
   private world: World;
@@ -23,7 +23,7 @@ export class LoadingManager {
   }
 
   public loadGLTF(path: string, onLoadingFinished: (gltf: any) => void): void {
-    let trackerEntry = this.addLoadingEntry(path);
+    const trackerEntry = this.addLoadingEntry(path);
 
     this.gltfLoader.load(
       path,
@@ -43,7 +43,7 @@ export class LoadingManager {
   }
 
   public addLoadingEntry(path: string): LoadingTrackerEntry {
-    let entry = new LoadingTrackerEntry(path);
+    const entry = new LoadingTrackerEntry(path);
     this.loadingTracker.push(entry);
 
     return entry;

@@ -79,20 +79,20 @@ export class EnteringVehicle extends CharacterStateBase {
         this.seat.door.rotation = 1;
       }
 
-      let factor = THREE.MathUtils.clamp(
+      const factor = THREE.MathUtils.clamp(
         this.timer / (this.animationLength - this.animData.end_early),
         0,
         1,
       );
-      let sineFactor = Utils.easeInOutSine(factor);
+      const sineFactor = Utils.easeInOutSine(factor);
       this.factorSimulator.simulate(timeStep);
 
-      let currentPosOffset = new THREE.Vector3().lerpVectors(
+      const currentPosOffset = new THREE.Vector3().lerpVectors(
         this.initialPositionOffset,
         new THREE.Vector3(),
         this.factorSimulator.position,
       );
-      let lerpPosition = new THREE.Vector3().lerpVectors(
+      const lerpPosition = new THREE.Vector3().lerpVectors(
         this.startPosition.clone().sub(currentPosOffset),
         this.endPosition,
         sineFactor,

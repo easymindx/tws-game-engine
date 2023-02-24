@@ -38,7 +38,9 @@ export class VehicleSeat {
       }
 
       if (object.userData.hasOwnProperty('entry_points')) {
-        let entry_points = (object.userData.entry_points as string).split(';');
+        const entry_points = (object.userData.entry_points as string).split(
+          ';',
+        );
         for (const entry_point of entry_points) {
           if (entry_point.length > 0) {
             this.entryPoints.push(gltf.scene.getObjectByName(entry_point));
