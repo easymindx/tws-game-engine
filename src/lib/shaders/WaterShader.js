@@ -1,21 +1,20 @@
 const THREE = require('three');
 
 export let WaterShader = {
-
-    uniforms: {
-        iGlobalTime: {
-            type: 'f',
-            value: 0.1
-        },
-        iResolution: {
-            type: 'v2',
-            value: new THREE.Vector2()
-        },
-        cameraPos: {value: new THREE.Vector3()},
-        lightDir: {value: new THREE.Vector3()}
+  uniforms: {
+    iGlobalTime: {
+      type: 'f',
+      value: 0.1,
     },
-  
-    vertexShader: `
+    iResolution: {
+      type: 'v2',
+      value: new THREE.Vector2(),
+    },
+    cameraPos: { value: new THREE.Vector3() },
+    lightDir: { value: new THREE.Vector3() },
+  },
+
+  vertexShader: `
 
     varying vec3 vWorldPosition;
     varying vec2 vTexCoord;
@@ -29,9 +28,8 @@ export let WaterShader = {
         gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
       }
     `,
-  
-    fragmentShader: 
-    `
+
+  fragmentShader: `
     uniform float iGlobalTime;
     uniform vec2 iResolution;
     uniform vec3 cameraPos;
@@ -270,5 +268,5 @@ export let WaterShader = {
         gl_FragColor.rgb = toneMapping( gl_FragColor.rgb );
       #endif
     }
-    `
+    `,
 };

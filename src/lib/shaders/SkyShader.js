@@ -16,18 +16,17 @@
 const THREE = require('three');
 
 export let SkyShader = {
+  uniforms: {
+    luminance: { value: 1 },
+    turbidity: { value: 2 },
+    rayleigh: { value: 1 },
+    mieCoefficient: { value: 0.005 },
+    mieDirectionalG: { value: 0.8 },
+    sunPosition: { value: new THREE.Vector3() },
+    cameraPos: { value: new THREE.Vector3() },
+  },
 
-    uniforms: {
-      luminance: {value: 1},
-      turbidity: {value: 2},
-      rayleigh: {value: 1},
-      mieCoefficient: {value: 0.005},
-      mieDirectionalG: {value: 0.8},
-      sunPosition: {value: new THREE.Vector3()},
-      cameraPos: {value: new THREE.Vector3()}
-    },
-  
-    vertexShader: `
+  vertexShader: `
       uniform vec3 sunPosition;
       uniform float rayleigh;
       uniform float turbidity;
@@ -99,9 +98,8 @@ export let SkyShader = {
   
       }
     `,
-  
-    fragmentShader: 
-    `
+
+  fragmentShader: `
       varying vec3 vWorldPosition;
       varying vec3 vSunDirection;
       varying float vSunfade;
@@ -203,5 +201,5 @@ export let SkyShader = {
         #if defined( TONE_MAPPING )
           gl_FragColor.rgb = toneMapping( gl_FragColor.rgb );
         #endif
-      } `
-  };
+      } `,
+};

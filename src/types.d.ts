@@ -4,7 +4,7 @@ declare module '*.svg' {
    * `@svgr/webpack` plugin or
    * `babel-plugin-inline-react-svg` plugin.
    */
-  const content: any
+  const content: any;
 
-  export default content
+  export default content;
 }

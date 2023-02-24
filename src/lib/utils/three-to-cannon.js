@@ -9,7 +9,7 @@ var Type = {
   CYLINDER: 'Cylinder',
   SPHERE: 'Sphere',
   HULL: 'ConvexPolyhedron',
-  MESH: 'Trimesh'
+  MESH: 'Trimesh',
 };
 
 /**
@@ -40,9 +40,7 @@ export const threeToCannon = function (object, options) {
   geometry = getGeometry(object);
   if (!geometry) return null;
 
-  var type = geometry.metadata
-    ? geometry.metadata.type
-    : geometry.type;
+  var type = geometry.metadata ? geometry.metadata.type : geometry.type;
 
   switch (type) {
     case 'BoxGeometry':
@@ -62,7 +60,10 @@ export const threeToCannon = function (object, options) {
     case 'BufferGeometry':
       return createBoundingBoxShape(object);
     default:
-      console.warn('Unrecognized geometry: "%s". Using bounding box as shape.', geometry.type);
+      console.warn(
+        'Unrecognized geometry: "%s". Using bounding box as shape.',
+        geometry.type,
+      );
       return createBoxShape(geometry);
   }
 };
@@ -73,32 +74,35 @@ threeToCannon.Type = Type;
  * Shape construction
  */
 
- /**
-  * @param  {THREE.Geometry} geometry
-  * @return {CANNON.Shape}
-  */
- function createBoxShape (geometry) {
-   var vertices = getVertices(geometry);
+/**
+ * @param  {THREE.Geometry} geometry
+ * @return {CANNON.Shape}
+ */
+function createBoxShape(geometry) {
+  var vertices = getVertices(geometry);
 
-   if (!vertices.length) return null;
+  if (!vertices.length) return null;
 
-   geometry.computeBoundingBox();
-   var box = geometry.boundingBox;
-   return new CANNON.Box(new CANNON.Vec3(
-     (box.max.x - box.min.x) / 2,
-     (box.max.y - box.min.y) / 2,
-     (box.max.z - box.min.z) / 2
-   ));
- }
+  geometry.computeBoundingBox();
+  var box = geometry.boundingBox;
+  return new CANNON.Box(
+    new CANNON.Vec3(
+      (box.max.x - box.min.x) / 2,
+      (box.max.y - box.min.y) / 2,
+      (box.max.z - box.min.z) / 2,
+    ),
+  );
+}
 
 /**
  * Bounding box needs to be computed with the entire mesh, not just geometry.
  * @param  {THREE.Object3D} mesh
  * @return {CANNON.Shape}
  */
-function createBoundingBoxShape (object) {
-  var shape, localPosition,
-      box = new THREE.Box3();
+function createBoundingBoxShape(object) {
+  var shape,
+    localPosition,
+    box = new THREE.Box3();
 
   var clone = object.clone();
   clone.quaternion.set(0, 0, 0, 1);
@@ -108,13 +112,17 @@ function createBoundingBoxShape (object) {
 
   if (!isFinite(box.min.lengthSq())) return null;
 
-  shape = new CANNON.Box(new CANNON.Vec3(
-    (box.max.x - box.min.x) / 2,
-    (box.max.y - box.min.y) / 2,
-    (box.max.z - box.min.z) / 2
-  ));
+  shape = new CANNON.Box(
+    new CANNON.Vec3(
+      (box.max.x - box.min.x) / 2,
+      (box.max.y - box.min.y) / 2,
+      (box.max.z - box.min.z) / 2,
+    ),
+  );
 
-  localPosition = box.translate(clone.position.negate()).getCenter(new THREE.Vector3());
+  localPosition = box
+    .translate(clone.position.negate())
+    .getCenter(new THREE.Vector3());
   if (localPosition.lengthSq()) {
     shape.offset = localPosition;
   }
@@ -127,10 +135,13 @@ function createBoundingBoxShape (object) {
  * @param  {THREE.Object3D} mesh
  * @return {CANNON.Shape}
  */
-function createConvexPolyhedron (object) {
-  var i, vertices, faces, hull,
-      eps = 1e-4,
-      geometry = getGeometry(object);
+function createConvexPolyhedron(object) {
+  var i,
+    vertices,
+    faces,
+    hull,
+    eps = 1e-4,
+    geometry = getGeometry(object);
 
   if (!geometry || !geometry.vertices.length) return null;
 
@@ -147,7 +158,11 @@ function createConvexPolyhedron (object) {
   // Convert from THREE.Vector3 to CANNON.Vec3.
   vertices = new Array(hull.vertices.length);
   for (i = 0; i < hull.vertices.length; i++) {
-    vertices[i] = new CANNON.Vec3(hull.vertices[i].x, hull.vertices[i].y, hull.vertices[i].z);
+    vertices[i] = new CANNON.Vec3(
+      hull.vertices[i].x,
+      hull.vertices[i].y,
+      hull.vertices[i].z,
+    );
   }
 
   // Convert from THREE.Face to Array<number>.
@@ -163,16 +178,16 @@ function createConvexPolyhedron (object) {
  * @param  {THREE.Geometry} geometry
  * @return {CANNON.Shape}
  */
-function createCylinderShape (geometry) {
+function createCylinderShape(geometry) {
   var shape,
-      params = geometry.metadata
-        ? geometry.metadata.parameters
-        : geometry.parameters;
+    params = geometry.metadata
+      ? geometry.metadata.parameters
+      : geometry.parameters;
   shape = new CANNON.Cylinder(
     params.radiusTop,
     params.radiusBottom,
     params.height,
-    params.radialSegments
+    params.radialSegments,
   );
 
   // Include metadata for serialization.
@@ -183,7 +198,9 @@ function createCylinderShape (geometry) {
   shape.numSegments = params.radialSegments;
 
   shape.orientation = new CANNON.Quaternion();
-  shape.orientation.setFromEuler(THREE.Math.degToRad(90), 0, 0, 'XYZ').normalize();
+  shape.orientation
+    .setFromEuler(THREE.Math.degToRad(90), 0, 0, 'XYZ')
+    .normalize();
   return shape;
 }
 
@@ -191,12 +208,14 @@ function createCylinderShape (geometry) {
  * @param  {THREE.Object3D} object
  * @return {CANNON.Shape}
  */
-function createBoundingCylinderShape (object, options) {
-  var shape, height, radius,
-      box = new THREE.Box3(),
-      axes = ['x', 'y', 'z'],
-      majorAxis = options.cylinderAxis || 'y',
-      minorAxes = axes.splice(axes.indexOf(majorAxis), 1) && axes;
+function createBoundingCylinderShape(object, options) {
+  var shape,
+    height,
+    radius,
+    box = new THREE.Box3(),
+    axes = ['x', 'y', 'z'],
+    majorAxis = options.cylinderAxis || 'y',
+    minorAxes = axes.splice(axes.indexOf(majorAxis), 1) && axes;
 
   box.setFromObject(object);
 
@@ -204,10 +223,12 @@ function createBoundingCylinderShape (object, options) {
 
   // Compute cylinder dimensions.
   height = box.max[majorAxis] - box.min[majorAxis];
-  radius = 0.5 * Math.max(
-    box.max[minorAxes[0]] - box.min[minorAxes[0]],
-    box.max[minorAxes[1]] - box.min[minorAxes[1]]
-  );
+  radius =
+    0.5 *
+    Math.max(
+      box.max[minorAxes[0]] - box.min[minorAxes[0]],
+      box.max[minorAxes[1]] - box.min[minorAxes[1]],
+    );
 
   // Create shape.
   shape = new CANNON.Cylinder(radius, radius, height, 12);
@@ -220,12 +241,14 @@ function createBoundingCylinderShape (object, options) {
   shape.numSegments = 12;
 
   shape.orientation = new CANNON.Quaternion();
-  shape.orientation.setFromEuler(
-    majorAxis === 'y' ? PI_2 : 0,
-    majorAxis === 'z' ? PI_2 : 0,
-    0,
-    'XYZ'
-  ).normalize();
+  shape.orientation
+    .setFromEuler(
+      majorAxis === 'y' ? PI_2 : 0,
+      majorAxis === 'z' ? PI_2 : 0,
+      0,
+      'XYZ',
+    )
+    .normalize();
   return shape;
 }
 
@@ -233,21 +256,23 @@ function createBoundingCylinderShape (object, options) {
  * @param  {THREE.Geometry} geometry
  * @return {CANNON.Shape}
  */
-function createPlaneShape (geometry) {
+function createPlaneShape(geometry) {
   geometry.computeBoundingBox();
   var box = geometry.boundingBox;
-  return new CANNON.Box(new CANNON.Vec3(
-    (box.max.x - box.min.x) / 2 || 0.1,
-    (box.max.y - box.min.y) / 2 || 0.1,
-    (box.max.z - box.min.z) / 2 || 0.1
-  ));
+  return new CANNON.Box(
+    new CANNON.Vec3(
+      (box.max.x - box.min.x) / 2 || 0.1,
+      (box.max.y - box.min.y) / 2 || 0.1,
+      (box.max.z - box.min.z) / 2 || 0.1,
+    ),
+  );
 }
 
 /**
  * @param  {THREE.Geometry} geometry
  * @return {CANNON.Shape}
  */
-function createSphereShape (geometry) {
+function createSphereShape(geometry) {
   var params = geometry.metadata
     ? geometry.metadata.parameters
     : geometry.parameters;
@@ -258,7 +283,7 @@ function createSphereShape (geometry) {
  * @param  {THREE.Object3D} object
  * @return {CANNON.Shape}
  */
-function createBoundingSphereShape (object, options) {
+function createBoundingSphereShape(object, options) {
   if (options.sphereRadius) {
     return new CANNON.Sphere(options.sphereRadius);
   }
@@ -272,9 +297,9 @@ function createBoundingSphereShape (object, options) {
  * @param  {THREE.Geometry} geometry
  * @return {CANNON.Shape}
  */
-function createTrimeshShape (geometry) {
+function createTrimeshShape(geometry) {
   var indices,
-      vertices = getVertices(geometry);
+    vertices = getVertices(geometry);
 
   if (!vertices.length) return null;
 
@@ -292,22 +317,25 @@ function createTrimeshShape (geometry) {
  * @param {THREE.Object3D} object
  * @return {THREE.Geometry}
  */
-function getGeometry (object) {
-  var matrix, mesh,
-      meshes = getMeshes(object),
-      tmp = new THREE.Geometry(),
-      combined = new THREE.Geometry();
+function getGeometry(object) {
+  var matrix,
+    mesh,
+    meshes = getMeshes(object),
+    tmp = new THREE.Geometry(),
+    combined = new THREE.Geometry();
 
   if (meshes.length === 0) return null;
 
   // Apply scale  – it can't easily be applied to a CANNON.Shape later.
   if (meshes.length === 1) {
     var position = new THREE.Vector3(),
-        quaternion = new THREE.Quaternion(),
-        scale = new THREE.Vector3();
+      quaternion = new THREE.Quaternion(),
+      scale = new THREE.Vector3();
     if (meshes[0].geometry.isBufferGeometry) {
-      if (meshes[0].geometry.attributes.position
-          && meshes[0].geometry.attributes.position.itemSize > 2) {
+      if (
+        meshes[0].geometry.attributes.position &&
+        meshes[0].geometry.attributes.position.itemSize > 2
+      ) {
         tmp.fromBufferGeometry(meshes[0].geometry);
       }
     } else {
@@ -323,8 +351,10 @@ function getGeometry (object) {
   while ((mesh = meshes.pop())) {
     mesh.updateMatrixWorld();
     if (mesh.geometry.isBufferGeometry) {
-      if (mesh.geometry.attributes.position
-          && mesh.geometry.attributes.position.itemSize > 2) {
+      if (
+        mesh.geometry.attributes.position &&
+        mesh.geometry.attributes.position.itemSize > 2
+      ) {
         var tmpGeom = new THREE.Geometry();
         tmpGeom.fromBufferGeometry(mesh.geometry);
         combined.merge(tmpGeom, mesh.matrixWorld);
@@ -345,7 +375,7 @@ function getGeometry (object) {
  * @param  {THREE.Geometry} geometry
  * @return {Array<number>}
  */
-function getVertices (geometry) {
+function getVertices(geometry) {
   if (!geometry.attributes) {
     geometry = new THREE.BufferGeometry().fromGeometry(geometry);
   }
@@ -360,7 +390,7 @@ function getVertices (geometry) {
  * @param  {THREE.Object3D} object
  * @return {Array<THREE.Mesh>}
  */
-function getMeshes (object) {
+function getMeshes(object) {
   var meshes = [];
   object.traverse(function (o) {
     if (o.type === 'Mesh') {

@@ -5,119 +5,102 @@ import { Scenario } from '../world/Scenario';
 import Swal from 'sweetalert2';
 import { World } from '../world/World';
 
-export class LoadingManager
-{
-	public firstLoad: boolean = true;
-	public onFinishedCallback: () => void;
-	
-	private world: World;
-	private gltfLoader: GLTFLoader;
-	private loadingTracker: LoadingTrackerEntry[] = [];
+export class LoadingManager {
+  public firstLoad: boolean = true;
+  public onFinishedCallback: () => void;
 
-	constructor(world: World)
-	{
-		this.world = world;
-		this.gltfLoader = new GLTFLoader();
+  private world: World;
+  private gltfLoader: GLTFLoader;
+  private loadingTracker: LoadingTrackerEntry[] = [];
 
-		this.world.setTimeScale(0);
-		UIManager.setUserInterfaceVisible(false);
-		UIManager.setLoadingScreenVisible(true);
-	}
+  constructor(world: World) {
+    this.world = world;
+    this.gltfLoader = new GLTFLoader();
 
-	public loadGLTF(path: string, onLoadingFinished: (gltf: any) => void): void
-	{
-		let trackerEntry = this.addLoadingEntry(path);
+    this.world.setTimeScale(0);
+    UIManager.setUserInterfaceVisible(false);
+    UIManager.setLoadingScreenVisible(true);
+  }
 
-		this.gltfLoader.load(path,
-		(gltf)  =>
-		{
-			onLoadingFinished(gltf);
-			this.doneLoading(trackerEntry);
-		},
-		(xhr) =>
-		{
-			if ( xhr.lengthComputable )
-			{
-				trackerEntry.progress = xhr.loaded / xhr.total;
-			}
-		},
-		(error)  =>
-		{
-			console.error(error);
-		});
-	}
+  public loadGLTF(path: string, onLoadingFinished: (gltf: any) => void): void {
+    let trackerEntry = this.addLoadingEntry(path);
 
-	public addLoadingEntry(path: string): LoadingTrackerEntry
-	{
-		let entry = new LoadingTrackerEntry(path);
-		this.loadingTracker.push(entry);
+    this.gltfLoader.load(
+      path,
+      (gltf) => {
+        onLoadingFinished(gltf);
+        this.doneLoading(trackerEntry);
+      },
+      (xhr) => {
+        if (xhr.lengthComputable) {
+          trackerEntry.progress = xhr.loaded / xhr.total;
+        }
+      },
+      (error) => {
+        console.error(error);
+      },
+    );
+  }
 
-		return entry;
-	}
+  public addLoadingEntry(path: string): LoadingTrackerEntry {
+    let entry = new LoadingTrackerEntry(path);
+    this.loadingTracker.push(entry);
 
-	public doneLoading(trackerEntry: LoadingTrackerEntry): void
-	{
-		trackerEntry.finished = true;
-		trackerEntry.progress = 1;
+    return entry;
+  }
 
-		if (this.isLoadingDone())
-		{
-			if (this.onFinishedCallback !== undefined) 
-			{
-				this.onFinishedCallback();
-			}
-			else
-			{
-				UIManager.setUserInterfaceVisible(true);
-			}
+  public doneLoading(trackerEntry: LoadingTrackerEntry): void {
+    trackerEntry.finished = true;
+    trackerEntry.progress = 1;
 
-			UIManager.setLoadingScreenVisible(false);
-		}
-	}
+    if (this.isLoadingDone()) {
+      if (this.onFinishedCallback !== undefined) {
+        this.onFinishedCallback();
+      } else {
+        UIManager.setUserInterfaceVisible(true);
+      }
 
-	public createWelcomeScreenCallback(scenario: Scenario): void
-	{
-		if (this.onFinishedCallback === undefined)
-		{
-			this.onFinishedCallback = () =>
-			{
-				this.world.update(1, 1);
-	
-				Swal.fire({
-					title: scenario.descriptionTitle,
-					html: scenario.descriptionContent,
-					confirmButtonText: 'Play',
-					buttonsStyling: false,
-					onClose: () => {
-						this.world.setTimeScale(1);
-						UIManager.setUserInterfaceVisible(true);
-					}
-				});
-			};
-		}
-	}
+      UIManager.setLoadingScreenVisible(false);
+    }
+  }
 
-	private getLoadingPercentage(): number
-	{
-		let done = true;
-		let total = 0;
-		let finished = 0;
+  public createWelcomeScreenCallback(scenario: Scenario): void {
+    if (this.onFinishedCallback === undefined) {
+      this.onFinishedCallback = () => {
+        this.world.update(1, 1);
 
-		for (const item of this.loadingTracker)
-		{
-			total++;
-			finished += item.progress;
-			if (!item.finished) done = false;
-		}
+        Swal.fire({
+          title: scenario.descriptionTitle,
+          html: scenario.descriptionContent,
+          confirmButtonText: 'Play',
+          buttonsStyling: false,
+          onClose: () => {
+            this.world.setTimeScale(1);
+            UIManager.setUserInterfaceVisible(true);
+          },
+        });
+      };
+    }
+  }
 
-		return (finished / total) * 100;
-	}
+  private getLoadingPercentage(): number {
+    let done = true;
+    let total = 0;
+    let finished = 0;
 
-	private isLoadingDone(): boolean
-	{
-		for (const entry of this.loadingTracker) {
-			if (!entry.finished) return false;
-		}
-		return true;
-	}
+    for (const item of this.loadingTracker) {
+      total++;
+      finished += item.progress;
+      if (!item.finished) done = false;
+    }
+
+    return (finished / total) * 100;
+  }
+
+  private isLoadingDone(): boolean {
+    for (const entry of this.loadingTracker) {
+      if (!entry.finished) return false;
+    }
+    return true;
+  }
 }

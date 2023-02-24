@@ -1,5 +1,4 @@
-export enum Space
-{
-	Local = 'local',
-	Global = 'global'
+export enum Space {
+  Local = 'local',
+  Global = 'global',
 }

@@ -1,36 +1,36 @@
 // shared config (dev and prod)
-const { resolve } = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { resolve } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
-  entry: "./index.tsx",
+  entry: './index.tsx',
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
-      cannon: resolve(__dirname, '../../src/lib/cannon/cannon.js')
+      cannon: resolve(__dirname, '../../src/lib/cannon/cannon.js'),
     },
-    plugins: [new TsconfigPathsPlugin()]
+    plugins: [new TsconfigPathsPlugin()],
   },
-  context: resolve(__dirname, "../../src"),
+  context: resolve(__dirname, '../../src'),
   module: {
     rules: [
       {
         test: [/\.jsx?$/, /\.tsx?$/],
-        use: ["babel-loader"],
+        use: ['babel-loader'],
         exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(scss|sass)$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(jpe?g|png|gif)$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
       },
       {
         test: /\.svg$/,
@@ -39,5 +39,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ template: "index.html.ejs" })],
+  plugins: [new HtmlWebpackPlugin({ template: 'index.html.ejs' })],
 };
