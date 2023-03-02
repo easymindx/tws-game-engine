@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon';
 import * as _ from 'lodash';
 import { SimulationFrame } from '../physics/spring_simulation/SimulationFrame';
-import { World } from '../world/World';
 import { Side } from '../enums/Side';
 import { Object3D } from 'three';
 import { Space } from '../enums/Space';
@@ -178,7 +177,7 @@ export function getSignedAngleBetweenVectors(
   normal: THREE.Vector3 = new THREE.Vector3(0, 1, 0),
   dotTreshold = 0.0005,
 ): number {
-  let angle = this.getAngleBetweenVectors(v1, v2, dotTreshold);
+  let angle = getAngleBetweenVectors(v1, v2, dotTreshold);
 
   // Get vector pointing up or down
   const cross = new THREE.Vector3().crossVectors(v1, v2);
@@ -202,7 +201,7 @@ export function haveDifferentSigns(n1: number, n2: number): boolean {
 
 //#region Miscellaneous
 
-export function setDefaults(options: {}, defaults: {}): {} {
+export function setDefaults(options: object, defaults: object): object {
   return _.defaults({}, _.clone(options), defaults);
 }
 
