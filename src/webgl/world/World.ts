@@ -152,7 +152,7 @@ export class World {
     // Stats (FPS, Frame time, Memory)
     this.stats = Stats();
     // Create right panel GUI
-    this.createParamsGUI(scope);
+    this.createParamsGUI();
 
     // Initialization
     this.inputManager = new InputManager(this, this.renderer.domElement);
@@ -462,7 +462,7 @@ export class World {
     this.renderer.domElement.id = 'canvas';
   }
 
-  private createParamsGUI(scope: World): void {
+  private createParamsGUI(): void {
     this.params = {
       Pointer_Lock: true,
       Mouse_Sensitivity: 0.3,
@@ -487,19 +487,19 @@ export class World {
       .add(this.params, 'Time_Scale', 0, 1)
       .listen()
       .onChange((value) => {
-        scope.timeScaleTarget = value;
+        this.timeScaleTarget = value;
       });
     worldFolder
       .add(this.params, 'Sun_Elevation', 0, 180)
       .listen()
       .onChange((value) => {
-        scope.sky.phi = value;
+        this.sky.phi = value;
       });
     worldFolder
       .add(this.params, 'Sun_Rotation', 0, 360)
       .listen()
       .onChange((value) => {
-        scope.sky.theta = value;
+        this.sky.theta = value;
       });
 
     // Input
@@ -517,12 +517,12 @@ export class World {
       }
     });
     settingsFolder.add(this.params, 'Pointer_Lock').onChange((enabled) => {
-      scope.inputManager.setPointerLock(enabled);
+      this.inputManager.setPointerLock(enabled);
     });
     settingsFolder
       .add(this.params, 'Mouse_Sensitivity', 0, 1)
       .onChange((value) => {
-        scope.cameraOperator.setSensitivity(value, value * 0.8);
+        this.cameraOperator.setSensitivity(value, value * 0.8);
       });
     settingsFolder.add(this.params, 'Debug_Physics').onChange((enabled) => {
       if (enabled) {
@@ -535,7 +535,7 @@ export class World {
         this.cannonDebugRenderer = undefined;
       }
 
-      scope.characters.forEach((char) => {
+      this.characters.forEach((char) => {
         char.raycastBox.visible = enabled;
       });
     });
