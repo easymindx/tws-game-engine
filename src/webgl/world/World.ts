@@ -65,8 +65,6 @@ export class World {
   private lastScenarioID: string;
 
   constructor(worldScenePath?: any) {
-    const scope = this;
-
     // WebGL not supported
     if (!Detector.webgl) {
       Swal.fire({
@@ -92,19 +90,19 @@ export class World {
     this.generateHTML();
 
     // Auto window resize
-    function onWindowResize(): void {
-      scope.camera.aspect = window.innerWidth / window.innerHeight;
-      scope.camera.updateProjectionMatrix();
-      scope.renderer.setSize(window.innerWidth, window.innerHeight);
+    const onWindowResize = () => {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
       fxaaPass.uniforms['resolution'].value.set(
         1 / (window.innerWidth * pixelRatio),
         1 / (window.innerHeight * pixelRatio),
       );
-      scope.composer.setSize(
+      this.composer.setSize(
         window.innerWidth * pixelRatio,
         window.innerHeight * pixelRatio,
       );
-    }
+    };
     window.addEventListener('resize', onWindowResize, false);
 
     // Three.js scene
@@ -455,7 +453,7 @@ export class World {
       html += '<span class="ctrl-desc">' + row.desc + '</span></div>';
     });
 
-    document.getElementById('controls').innerHTML = html;
+    // document.getElementById('controls').innerHTML = html;
   }
 
   private generateHTML(): void {

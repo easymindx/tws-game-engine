@@ -2246,7 +2246,7 @@
           // document.body.appendChild(autoPlaceContainer);
           document
             .getElementById('ui-container')
-            .appendChild(autoPlaceContainer);
+            ?.appendChild(autoPlaceContainer);
           autoPlaceVirgin = false;
         }
         autoPlaceContainer.appendChild(this.domElement);

@@ -10,13 +10,7 @@ export var Stats = function () {
   var container = document.createElement('div');
   container.id = 'statsBox';
   container.style.display = 'none';
-  document.getElementById('ui-container').appendChild(container);
-  // container.addEventListener('click', function (event) {
-
-  //     event.preventDefault();
-  //     showPanel(++mode % container.children.length);
-
-  // }, false);
+  document.getElementById('ui-container')?.appendChild(container);
 
   function addPanel(panel) {
     container.appendChild(panel.dom);
