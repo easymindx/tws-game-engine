@@ -27,12 +27,6 @@ const App = () => {
           Web Social Media Game
         </h1>
       </div>
-      <div id="ui-container" style={{ display: 'none' }}>
-        <div className="github-corner"></div>
-        <div className="left-panel">
-          <div id="controls" className="panel-segment flex-bottom"></div>
-        </div>
-      </div>
     </>
   );
 };

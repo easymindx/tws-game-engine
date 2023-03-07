@@ -1,8 +1,9 @@
 export class UIManager {
   public static setUserInterfaceVisible(value: boolean): void {
-    document.getElementById('ui-container').style.display = value
-      ? 'block'
-      : 'none';
+    if (document.getElementById('ui-container'))
+      document.getElementById('ui-container').style.display = value
+        ? 'block'
+        : 'none';
   }
 
   public static setLoadingScreenVisible(value: boolean): void {
