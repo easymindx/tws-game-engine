@@ -6,7 +6,6 @@ import { KeyBinding } from '../core/KeyBinding';
 import * as THREE from 'three';
 import * as Utils from '../core/FunctionLibrary';
 import { SpringSimulator } from '../physics/spring_simulation/SpringSimulator';
-import { World } from '../world/World';
 import { EntityType } from '../enums/EntityType';
 
 export class Car extends Vehicle implements IControllable {
@@ -42,7 +41,6 @@ export class Car extends Vehicle implements IControllable {
       dampingCompression: 2,
       rollInfluence: 0.8,
     });
-
     this.readCarData(gltf);
 
     this.collision.preStep = (body: CANNON.Body) => {
@@ -60,7 +58,7 @@ export class Car extends Vehicle implements IControllable {
       view: new KeyBinding('KeyV'),
     };
 
-    this.steeringSimulator = new SpringSimulator(60, 10, 0.6);
+    this.steeringSimulator = new SpringSimulator(60, 15, 0.8);
   }
 
   public noDirectionPressed(): boolean {
