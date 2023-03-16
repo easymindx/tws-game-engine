@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { World } from './webgl/world/World';
 
+import './main.css';
 import '@/assets/scss/main.scss';
 
 declare global {
@@ -20,14 +21,12 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <div id="loading-screen">
-        <div id="loading-screen-background"></div>
-        <h1 id="main-title" className="sb-font">
-          Web Social Media Game
-        </h1>
-      </div>
-    </>
+    <div id="loading-screen" className="w-[80%]">
+      <div id="loading-screen-background"></div>
+      <h1 id="main-title" className="sb-font">
+        Web Social Media Game
+      </h1>
+    </div>
   );
 };
 export default App;
