@@ -64,7 +64,7 @@ export class World {
 
   private lastScenarioID: string;
 
-  constructor(worldScenePath?: any) {
+  constructor(canvas: HTMLCanvasElement, worldScenePath?: string) {
     // WebGL not supported
     if (!Detector.webgl) {
       Swal.fire({
@@ -79,15 +79,13 @@ export class World {
     }
 
     // Renderer
-    this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new THREE.WebGLRenderer({ canvas });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.0;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    this.generateHTML();
 
     // Auto window resize
     const onWindowResize = () => {
@@ -155,7 +153,7 @@ export class World {
     this.createParamsGUI();
 
     // Initialization
-    this.inputManager = new InputManager(this, this.renderer.domElement);
+    this.inputManager = new InputManager(this, canvas);
     this.cameraOperator = new CameraOperator(
       this,
       this.camera,
@@ -454,12 +452,6 @@ export class World {
     });
 
     // document.getElementById('controls').innerHTML = html;
-  }
-
-  private generateHTML(): void {
-    // Canvas
-    document.body.appendChild(this.renderer.domElement);
-    this.renderer.domElement.id = 'canvas';
   }
 
   private createParamsGUI(): void {

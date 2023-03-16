@@ -12,21 +12,25 @@ declare global {
 
 const App = () => {
   const initialized = useRef(false);
+  const canvas = useRef();
 
   useEffect(() => {
     if (!initialized.current) {
-      window.world = new World('/assets/models/world.glb');
+      window.world = new World(canvas.current, '/assets/models/world.glb');
       initialized.current = true;
     }
   }, []);
 
   return (
-    <div id="loading-screen" className="w-[80%]">
-      <div id="loading-screen-background"></div>
-      <h1 id="main-title" className="sb-font">
-        Web Social Media Game
-      </h1>
-    </div>
+    <>
+      <div id="loading-screen" className="w-[80%]">
+        <div id="loading-screen-background"></div>
+        <h1 id="main-title" className="sb-font">
+          Web Social Media Game
+        </h1>
+      </div>
+      <canvas ref={canvas} />
+    </>
   );
 };
 export default App;
