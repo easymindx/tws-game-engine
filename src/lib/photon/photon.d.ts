@@ -7,7 +7,7 @@
     @namespace Exitgames.Common
 */
 declare namespace Exitgames.Common {
-  class Logger {
+  export class Logger {
     private prefix;
     private level;
     /**
@@ -135,7 +135,7 @@ declare namespace Exitgames.Common {
     private log;
     private format0;
   }
-  class Util {
+  export class Util {
     static isArray(obj: any): boolean;
     static getPropertyOrElse(obj: any, prop: string, defaultValue: any): any;
   }
@@ -152,11 +152,11 @@ declare namespace Photon {
         @property {number} Ws WebSockets connection.
         @property {number} Wss WebSockets Secure connection.
     **/
-  enum ConnectionProtocol {
+  export enum ConnectionProtocol {
     Ws = 0,
     Wss = 1,
   }
-  enum TypeExtType {
+  export enum TypeExtType {
     None = 0,
     Byte = 1,
     Short = 2,
@@ -170,7 +170,7 @@ declare namespace Photon {
     Dict = 10,
     Object = 11,
   }
-  class TypeExt {
+  export class TypeExt {
     static Is(x: any): boolean;
     static Byte(x: any): any;
     static Short(x: any): any;
@@ -185,14 +185,14 @@ declare namespace Photon {
     static DictTypedKeys(keyType: number, valType: number): any;
     static PutTypedKey(x: any, k: any, v: any): void;
   }
-  class PhotonPeer {
+  export class PhotonPeer {
     private protocol;
     private address;
     private subprotocol;
     addProtocolPrefix(address: string, protocol: number): string;
     url: string;
     /**
-            @classdesc Instances of the PhotonPeer class are used to connect to a Photon server and communicate with it.
+            @classdesc Instances of the PhotonPeer export class are used to connect to a Photon server and communicate with it.
             A PhotonPeer instance allows communication with the Photon Server, which in turn distributes messages to other PhotonPeer clients.
             An application can use more than one PhotonPeer instance, which are treated as separate users on the server.
             Each should have its own listener instance, to separate the operations, callbacks and events.
@@ -348,7 +348,7 @@ declare namespace Photon {
         */
     onUnhandledResponse(operationCode: number, args: any): void;
     /**
-            @summary Enum for peer status codes.
+            @summary export Enum for peer status codes.
             Use to subscribe to status changes.
             @member Photon.PhotonPeer.StatusCodes
             @readonly
@@ -459,7 +459,7 @@ declare namespace Photon.LoadBalancing {
     sqlLobbyFilter?: string;
     expectedUsers?: string[];
   }
-  class Actor {
+  export class Actor {
     name: string;
     actorNr: number;
     isLocal: boolean;
@@ -588,7 +588,7 @@ declare namespace Photon.LoadBalancing {
     _setSuspended(s: boolean): void;
     static _getActorNrFromResponse(vals: { [index: string]: any }): any;
   }
-  class RoomInfo {
+  export class RoomInfo {
     /**
             @summary Room name.
             @member Photon.LoadBalancing.RoomInfo#name
@@ -726,7 +726,7 @@ declare namespace Photon.LoadBalancing {
     _updateFromEvent(payload: Object): void;
     private updateIfExists;
   }
-  class Room extends RoomInfo {
+  export class Room extends RoomInfo {
     /**
             @classdesc Represents a room client joins or is joined to. Extend to implement custom logic. Custom properties can be set via setCustomProperty() while being in the room.
             @mixes Photon.LoadBalancing.RoomInfo
@@ -831,7 +831,7 @@ declare namespace Photon.LoadBalancing {
     private loadBalancingClient?;
     _setLBC(lbc: LoadBalancingClient): void;
   }
-  class LoadBalancingClient {
+  export class LoadBalancingClient {
     private appId;
     private appVersion;
     static JoinMode: {
@@ -1092,7 +1092,7 @@ declare namespace Photon.LoadBalancing {
     private roomFactoryInternal;
     private actorFactoryInternal;
     /**
-            @classdesc Implements the Photon LoadBalancing workflow. This class should be extended to handle system or custom events and operation responses.
+            @classdesc Implements the Photon LoadBalancing workflow. This export class should be extended to handle system or custom events and operation responses.
             @constructor Photon.LoadBalancing.LoadBalancingClient
             @param {Photon.ConnectionProtocol} protocol Connecton protocol.
             @param {string} appId Cloud application ID.
@@ -1533,7 +1533,7 @@ declare namespace Photon.LoadBalancing {
     private checkNextState;
     static PeerErrorCode: {
       /**
-                @summary Enum for client peers error codes.
+                @summary export Enum for client peers error codes.
                 @member Photon.LoadBalancing.LoadBalancingClient.PeerErrorCode
                 @readonly
                 @property {number} Ok No Error.
@@ -1578,7 +1578,7 @@ declare namespace Photon.LoadBalancing {
     };
     static State: {
       /**
-                @summary Enum for client states.
+                @summary export Enum for client states.
                 @member Photon.LoadBalancing.LoadBalancingClient.State
                 @readonly
                 @property {number} Error Critical error occurred.
@@ -1609,12 +1609,12 @@ declare namespace Photon.LoadBalancing {
     /**
             @summary Converts {@link Photon.LoadBalancing.LoadBalancingClient.State State} element to string name.
             @method Photon.LoadBalancing.LoadBalancingClient.StateToName
-            @param {Photon.LoadBalancing.LoadBalancingClient.State} state Client state enum element.
+            @param {Photon.LoadBalancing.LoadBalancingClient.State} state Client state export enum element.
             @returns {string} Specified element name or undefined if not found.
         */
     static StateToName(value: number): string | undefined;
   }
-  class LbcPeer extends Photon.PhotonPeer {
+  export class LbcPeer extends Photon.PhotonPeer {
     webRpc(
       uriPath: string,
       parameters?: {},
@@ -1624,7 +1624,7 @@ declare namespace Photon.LoadBalancing {
     ): void;
     webRpcHandler(lbc: LoadBalancingClient): (d: any) => void;
   }
-  class NameServerPeer extends LbcPeer {
+  export class NameServerPeer extends LbcPeer {
     private client;
     constructor(
       client: LoadBalancingClient,
@@ -1645,7 +1645,7 @@ declare namespace Photon.LoadBalancing {
       region: string
     ): void;
   }
-  class MasterPeer extends LbcPeer {
+  export class MasterPeer extends LbcPeer {
     private client;
     constructor(
       client: LoadBalancingClient,
@@ -1658,7 +1658,7 @@ declare namespace Photon.LoadBalancing {
     findFriends(friendsToFind: string[]): void;
     requestLobbyStats(lobbiesToRequest: any[][]): void;
   }
-  class GamePeer extends LbcPeer {
+  export class GamePeer extends LbcPeer {
     private client;
     constructor(
       client: LoadBalancingClient,
@@ -2090,7 +2090,7 @@ declare namespace Photon.Chat.Constants {
   };
   /**
         @summary Converts {@link Photon.Chat.Constants.UserStatus} element to string name.
-        @param {Photon.Chat.Constants.UserStatus} status User status enum element.
+        @param {Photon.Chat.Constants.UserStatus} status User status export enum element.
         @returns {string} Specified element name or undefined if not found.
         @method Photon.Chat.Constants.UserStatusToName
     */
@@ -2102,10 +2102,10 @@ declare namespace Photon.Chat.Constants {
 */
 declare namespace Photon.Chat {
   /**
-        @class Photon.Chat.Message
+        @export class Photon.Chat.Message
         @classdesc Encapsulates chat message data.
     */
-  class Message {
+  export class Message {
     private sender;
     private content;
     constructor(sender: string, content: any);
@@ -2123,10 +2123,10 @@ declare namespace Photon.Chat {
     getContent(): any;
   }
   /**
-        @class Photon.Chat.Channel
+        @export class Photon.Chat.Channel
         @classdesc Represents chat channel.
     */
-  class Channel {
+  export class Channel {
     private name;
     private isPrivat;
     private messages;
@@ -2171,11 +2171,11 @@ declare namespace Photon.Chat {
     removeSubscriber(user: string): boolean;
     reset(): void;
   }
-  class ChatClient extends Photon.LoadBalancing.LoadBalancingClient {
+  export class ChatClient extends Photon.LoadBalancing.LoadBalancingClient {
     DefaultMaxSubscribers: number;
     /**
             @classdesc Implements the Photon Chat API workflow.<br/>
-            This class should be extended to handle system or custom events and operation responses.<br/>
+            This export class should be extended to handle system or custom events and operation responses.<br/>
             
             @borrows Photon.LoadBalancing.LoadBalancingClient#setCustomAuthentication
 //            @borrows Photon.LoadBalancing.LoadBalancingClient#connectToNameServer // overrides with connectToNameServer with different parameters
@@ -2405,7 +2405,7 @@ declare namespace Photon.Chat {
     private unsubscribeRequests;
     static ChatPeerErrorCode: {
       /**
-                @summary Enum for client peers error codes.
+                @summary export Enum for client peers error codes.
                 @member Photon.Chat.ChatClient.ChatPeerErrorCode
                 @readonly
                 @property {number} Ok No Error.
@@ -2438,7 +2438,7 @@ declare namespace Photon.Chat {
     };
     static ChatState: {
       /**
-                @summary Enum for client states.
+                @summary export Enum for client states.
                 @member Photon.Chat.ChatClient.ChatState
                 @readonly
                 @property {number} Error Critical error occurred.
@@ -2472,10 +2472,14 @@ declare namespace Photon {
     @summary True if Photon library is built with Emscripten.
     @member Photon.IsEmscriptenBuild
     */
-  const IsEmscriptenBuild: any;
+  export const IsEmscriptenBuild: any;
   /**
     @summary Photon library version.
     @member Photon.Version
     */
-  const Version = '4.1.1.5';
+  export const Version = '4.1.1.5';
+}
+
+declare module 'photon' {
+  export = Photon;
 }

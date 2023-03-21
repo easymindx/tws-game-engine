@@ -6485,3 +6485,5 @@ var Photon;
     */
   Photon.Version = '4.1.1.5'; // @PHOTON-VERSION@
 })(Photon || (Photon = {}));
+
+module.exports = Photon;

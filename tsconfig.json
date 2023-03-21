@@ -11,7 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "cannon": ["./src/lib/cannon/cannon"]
+      "cannon": ["./src/lib/cannon/cannon"],
+      "photon": ["./src/lib/photon/photon"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
