@@ -5,5 +5,6 @@ module.exports = {
       replaceWith: '[data-focus-visible-added]',
     },
     autoprefixer: {},
+    'postcss-import': {},
   },
 };

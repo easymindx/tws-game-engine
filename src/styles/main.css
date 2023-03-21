@@ -1,5 +1,8 @@
-@import 'modules/base.css';
 @import 'modules/leftPanel.css';
 @import 'modules/dat.gui.css';
 @import 'modules/loadingScreen.css';
 @import 'modules/welcomeScreen.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
