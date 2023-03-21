@@ -14,12 +14,19 @@
     "test": "jest --coverage --watchAll --config=configs/jest.json"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.13",
     "@svgr/webpack": "^6.5.1",
+    "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.14",
     "babel-loader": "^9.1.2",
+    "clsx": "^1.2.1",
     "css-loader": "^6.7.3",
     "express": "^4.18.2",
+    "focus-visible": "^5.2.0",
+    "mini-css-extract-plugin": "^2.7.5",
     "postcss": "^8.4.21",
+    "postcss-focus-visible": "^8.0.2",
+    "postcss-loader": "^7.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-refresh": "^0.14.0",
@@ -58,11 +65,25 @@
     "jest-environment-jsdom": "^29.4.1",
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.3",
+    "prettier-plugin-tailwindcss": "^0.2.4",
     "rimraf": "^4.1.2",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.01%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      ">0.01%",
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
