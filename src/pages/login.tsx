@@ -1,4 +1,3 @@
-import React from 'react';
 import { AuthLayout } from '@/components/AuthLayout';
 import { Button } from '@/components/Button';
 import { TextField } from '@/components/Fields';

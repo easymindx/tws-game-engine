@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { World } from '@/webgl/world/World';
 
 export default function Game() {

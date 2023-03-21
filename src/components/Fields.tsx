@@ -1,4 +1,3 @@
-import React from 'react';
 import clsx from 'clsx';
 
 const formClasses =
@@ -17,21 +16,32 @@ function Label({ id, children }: { id: string; children: React.ReactNode }) {
 
 export function TextField({
   id,
+  name = '',
   label,
   type = 'text',
   className = '',
-  ...props
+  autoComplete = '',
+  required = false,
 }: {
   id: string;
+  name: string;
   label: string;
   type: string;
-  className: string;
-  props: any;
+  className?: string;
+  autoComplete?: string;
+  required?: boolean;
 }) {
   return (
     <div className={className}>
       {label && <Label id={id}>{label}</Label>}
-      <input id={id} type={type} {...props} className={formClasses} />
+      <input
+        id={id}
+        type={type}
+        name={name}
+        className={formClasses}
+        autoComplete={autoComplete}
+        required={required}
+      />
     </div>
   );
 }

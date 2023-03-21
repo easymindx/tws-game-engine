@@ -1,4 +1,3 @@
-import React from 'react';
 import { World } from '@/webgl/world/World';
 import Login from '@/pages/login';
 

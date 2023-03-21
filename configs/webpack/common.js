@@ -1,5 +1,6 @@
 // shared config (dev and prod)
 const { resolve } = require('path');
+const { ProvidePlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
@@ -10,6 +11,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       cannon: resolve(__dirname, '../../src/lib/cannon/cannon.js'),
+      photon: resolve(__dirname, '../../src/lib/photon/photon.js'),
     },
     plugins: [new TsconfigPathsPlugin()],
   },
@@ -54,6 +56,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].bundle.css',
       chunkFilename: '[id].css',
+    }),
+    new ProvidePlugin({
+      React: 'react',
     }),
   ],
 };
