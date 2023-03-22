@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { World } from '@/webgl/world/World';
+import { World } from '@/engine/world';
 
 export default function Game() {
   const initialized = useRef(false);

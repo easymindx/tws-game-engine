@@ -1,15 +1,5 @@
-import { World } from '@/webgl/world/World';
-import Login from '@/pages/login';
+import Game from '@/pages/game';
 
-import '@/styles/main.css';
-
-declare global {
-  interface Window {
-    world: World;
-  }
+export default function App() {
+  return <Game />;
 }
-
-const App = () => {
-  return <Login />;
-};
-export default App;
