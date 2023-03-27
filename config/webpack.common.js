@@ -1,21 +1,22 @@
 // shared config (dev and prod)
-const { resolve } = require('path');
+const paths = require('./paths');
 const { ProvidePlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: './index.tsx',
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
-      cannon: resolve(__dirname, '../../src/lib/cannon/cannon.js'),
-      photon: resolve(__dirname, '../../src/lib/photon/photon.js'),
+      cannon: paths.cannon,
+      photon: paths.photon,
     },
     plugins: [new TsconfigPathsPlugin()],
   },
-  context: resolve(__dirname, '../../src'),
+  context: paths.src,
   module: {
     rules: [
       {
@@ -48,8 +49,11 @@ module.exports = {
     ],
   },
   plugins: [
+    // Removes/cleans build folders and unused assets when rebuilding
+    new CleanWebpackPlugin(),
+
     new HtmlWebpackPlugin({
-      template: '../public/index.html',
+      template: paths.public + '/index.html',
       inject: 'head', // Inject the CSS into the head of the HTML file
       minify: false, // Disable minification to make debugging easier
     }),

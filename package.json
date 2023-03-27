@@ -5,13 +5,11 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",
-    "build": "yarn run clean-dist && webpack --config=configs/webpack/prod.js",
-    "clean-dist": "rimraf dist",
-    "lint": "eslint './src/**/*.{js,ts,tsx}' --quiet",
+    "build": "webpack --config config/webpack.prod.js",
     "start": "yarn run start-dev",
-    "start-dev": "webpack serve --config=configs/webpack/dev.js",
+    "start-dev": "webpack serve --config config/webpack.dev.js",
     "start-prod": "yarn run build && node express.js",
-    "test": "jest --coverage --watchAll --config=configs/jest.json"
+    "lint": "eslint './src/**/*.{js,ts,tsx}' --quiet"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
@@ -54,7 +52,9 @@
     "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
+    "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -67,7 +67,6 @@
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.3",
     "prettier-plugin-tailwindcss": "^0.2.4",
-    "rimraf": "^4.1.2",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
