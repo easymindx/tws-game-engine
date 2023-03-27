@@ -90,7 +90,7 @@ export class World {
     }
 
     this.loadBalancingClient = new LoadBalancing.LoadBalancingClient(
-      ConnectionProtocol.Ws,
+      ConnectionProtocol.Wss,
       '019ea304-2fcb-4241-b676-7a08ba0d49ed',
       '1.0'
     );
