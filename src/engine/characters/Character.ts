@@ -27,10 +27,12 @@ import { GroundImpactData } from './GroundImpactData';
 import { ClosestObjectFinder } from '../core/ClosestObjectFinder';
 import { Object3D } from 'three';
 import { EntityType } from '../enums/EntityType';
+import { LoadBalancing } from 'photon';
 
 export class Character extends THREE.Object3D implements IWorldEntity {
   public updateOrder = 1;
   public entityType: EntityType = EntityType.Character;
+  public actor: LoadBalancing.Actor;
 
   public height = 0;
   public tiltContainer: THREE.Group;

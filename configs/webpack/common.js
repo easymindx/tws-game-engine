@@ -37,10 +37,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.(scss|sass)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
         test: /\.(jpe?g|png|gif)$/i,
         type: 'asset/resource',
       },
@@ -52,7 +48,11 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: '../public/index.html' }),
+    new HtmlWebpackPlugin({
+      template: '../public/index.html',
+      inject: 'head', // Inject the CSS into the head of the HTML file
+      minify: false, // Disable minification to make debugging easier
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].bundle.css',
       chunkFilename: '[id].css',

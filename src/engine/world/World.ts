@@ -31,8 +31,7 @@ import { Scenario } from './Scenario';
 import { Sky } from './Sky';
 import { Ocean } from './Ocean';
 import { ConnectionProtocol, LoadBalancing } from 'photon';
-import { EntityType } from '../enums/EntityType';
-import { Car } from '../vehicles/Car';
+import { PhotonEvent } from '../enums/PhotonEvent';
 
 declare global {
   interface Window {
@@ -62,7 +61,6 @@ export class World {
   public inputManager: InputManager;
   public cameraOperator: CameraOperator;
   public timeScaleTarget = 1;
-  public console: InfoStack;
   public cannonDebugRenderer: CannonDebugRenderer;
   public scenarios: Scenario[] = [];
   public characters: Character[] = [];
@@ -123,18 +121,17 @@ export class World {
     };
 
     this.loadBalancingClient.onEvent = (code, content, actorNr) => {
-      console.log(`OnEvent: ${actorNr}`, content.pos);
-      this.box.position.copy(
-        new THREE.Vector3(content.pos.x, content.pos.y, content.pos.z)
-      );
-      this.box.quaternion.copy(
-        new THREE.Quaternion(
-          content.rot.x,
-          content.rot.y,
-          content.rot.z,
-          content.rot.w
-        )
-      );
+      if (code === PhotonEvent.transform) {
+        const { pos, rot } = content;
+        const entity = this.vehicles.find((v) => v.actor.actorNr === actorNr);
+
+        if (entity) {
+          entity.setPosition(pos.x, pos.y, pos.z);
+          entity.collision.quaternion.copy(
+            new CANNON.Quaternion(rot.x, rot.y, rot.z, rot.w)
+          );
+        }
+      }
     };
 
     // Renderer
@@ -170,12 +167,6 @@ export class World {
       0.1,
       1010
     );
-
-    const geo = new THREE.BoxGeometry(2, 2, 2);
-    const mat = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-    const mesh = new THREE.Mesh(geo, mat);
-    this.box = mesh;
-    this.graphicsWorld.add(mesh);
 
     // Passes
     const renderPass = new RenderPass(this.graphicsWorld, this.camera);
@@ -247,7 +238,7 @@ export class World {
   }
 
   public sendPlayerInfo(status: object) {
-    this.loadBalancingClient.raiseEvent(1, status);
+    this.loadBalancingClient.raiseEvent(PhotonEvent.transform, status);
   }
 
   // Update

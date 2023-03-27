@@ -11,10 +11,14 @@ import { CollisionGroups } from '../enums/CollisionGroups';
 import { SwitchingSeats } from '../characters/character_states/vehicles/SwitchingSeats';
 import { EntityType } from '../enums/EntityType';
 import { IWorldEntity } from '../interfaces/IWorldEntity';
+import { LoadBalancing } from 'photon';
+import { DriverType } from '../enums/DriverType';
 
 export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
   public updateOrder = 2;
   public abstract entityType: EntityType;
+  public actor: LoadBalancing.Actor;
+  public driver: DriverType;
 
   public controllingCharacter: Character;
   public actions: { [action: string]: KeyBinding } = {};
@@ -116,10 +120,12 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
 
     this.updateMatrixWorld();
 
-    this.world.sendPlayerInfo({
-      pos: this.collision.interpolatedPosition,
-      rot: this.collision.interpolatedQuaternion,
-    });
+    if (this.actor && this.actor.isLocal) {
+      this.world.sendPlayerInfo({
+        pos: this.collision.interpolatedPosition,
+        rot: this.collision.interpolatedQuaternion,
+      });
+    }
   }
 
   public forceCharacterOut(): void {
@@ -252,12 +258,6 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
 
   public inputReceiverUpdate(timeStep: number): void {
     if (this.firstPerson) {
-      // this.world.cameraOperator.target.set(
-      //     this.position.x + this.camera.position.x,
-      //     this.position.y + this.camera.position.y,
-      //     this.position.z + this.camera.position.z
-      // );
-
       const temp = new THREE.Vector3().copy(this.camera.position);
       temp.applyQuaternion(this.quaternion);
       this.world.cameraOperator.target.copy(temp.add(this.position));

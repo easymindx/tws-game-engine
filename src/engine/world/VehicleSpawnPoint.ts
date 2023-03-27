@@ -9,10 +9,12 @@ import { Vehicle } from '../vehicles/Vehicle';
 import { Character } from '../characters/Character';
 import { FollowPath } from '../characters/character_ai/FollowPath';
 import { LoadingManager } from '../core/LoadingManager';
+import { DriverType } from '../enums/DriverType';
+import { LoadBalancing } from 'photon';
 
 export class VehicleSpawnPoint implements ISpawnPoint {
   public type: string;
-  public driver: string;
+  public driver: DriverType;
   public firstAINode: string;
 
   private object: THREE.Object3D;
@@ -24,13 +26,15 @@ export class VehicleSpawnPoint implements ISpawnPoint {
   public spawn(
     loadingManager: LoadingManager,
     world: World,
-    actorNr: number
+    actor: LoadBalancing.Actor
   ): void {
     loadingManager.loadGLTF(
       '/assets/models/' + this.type + '.glb',
       (model: any) => {
         const vehicle: Vehicle = this.getNewVehicleByType(model, this.type);
         vehicle.spawnPoint = this.object;
+        vehicle.actor = actor;
+        vehicle.driver = this.driver;
 
         const worldPos = new THREE.Vector3();
         const worldQuat = new THREE.Quaternion();
@@ -47,9 +51,9 @@ export class VehicleSpawnPoint implements ISpawnPoint {
             world.add(character);
             character.teleportToVehicle(vehicle, vehicle.seats[0]);
 
-            if (this.driver === 'player') {
+            if (this.driver === DriverType.player) {
               character.takeControl();
-            } else if (this.driver === 'ai') {
+            } else if (this.driver === DriverType.bot) {
               if (this.firstAINode !== undefined) {
                 let nodeFound = false;
                 for (const pathName in world.paths) {
@@ -78,7 +82,7 @@ export class VehicleSpawnPoint implements ISpawnPoint {
                   console.error('Path node ' + this.firstAINode + 'not found.');
                 }
               }
-            } else if (this.driver === 'remote') {
+            } else if (this.driver === DriverType.remote) {
             }
           });
         }

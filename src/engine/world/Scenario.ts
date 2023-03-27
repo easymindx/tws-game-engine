@@ -4,6 +4,7 @@ import { CharacterSpawnPoint } from './CharacterSpawnPoint';
 import { World } from '../world/World';
 import { LoadingManager } from '../core/LoadingManager';
 import { LoadBalancing } from 'photon';
+import { DriverType } from '../enums/DriverType';
 
 export class Scenario {
   public id: string;
@@ -100,11 +101,11 @@ export class Scenario {
   public createEntity(actor: LoadBalancing.Actor) {
     const player = this.spawnPoints[actor.actorNr] as VehicleSpawnPoint;
     if (actor.isLocal) {
-      player.driver = 'player';
+      player.driver = DriverType.player;
     } else {
-      player.driver = 'remote';
+      player.driver = DriverType.remote;
     }
-    player.spawn(this.world.loadingManager, this.world, actor.actorNr);
+    player.spawn(this.world.loadingManager, this.world, actor);
   }
 
   public createLaunchLink(): void {

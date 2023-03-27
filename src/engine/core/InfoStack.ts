@@ -6,6 +6,7 @@ import { World } from '../world/World';
 export class InfoStack implements IWorldEntity {
   public updateOrder = 3;
   public entityType: EntityType = EntityType.System;
+  public networkId = -1;
 
   public messages: InfoStackMessage[] = [];
   public entranceAnimation = 'animate__slideInLeft';
