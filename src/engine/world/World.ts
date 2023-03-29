@@ -17,7 +17,6 @@ import * as _ from 'lodash';
 import { InputManager } from '../core/InputManager';
 import * as Utils from '../core/FunctionLibrary';
 import { LoadingManager } from '../core/LoadingManager';
-import { InfoStack } from '../core/InfoStack';
 import { UIManager } from '../core/UIManager';
 import { IWorldEntity } from '../interfaces/IWorldEntity';
 import { IUpdatable } from '../interfaces/IUpdatable';
@@ -70,7 +69,6 @@ export class World {
   public updatables: IUpdatable[] = [];
   public loadBalancingClient: LoadBalancing.LoadBalancingClient;
   public loadingManager: LoadingManager = null;
-  private box: THREE.Mesh;
 
   private currScenarioID: string;
   private lastScenarioID: string;
