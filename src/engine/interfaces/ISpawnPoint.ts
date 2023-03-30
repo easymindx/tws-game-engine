@@ -6,6 +6,6 @@ export interface ISpawnPoint {
   spawn(
     loadingManager: LoadingManager,
     world: World,
-    actor: LoadBalancing.Actor
+    actor?: LoadBalancing.Actor
   ): void;
 }

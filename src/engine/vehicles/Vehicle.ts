@@ -46,10 +46,10 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
 
     // Physics mat
     const mat = new CANNON.Material('Mat');
-    mat.friction = 0.01;
+    mat.friction = 0.1;
 
     // Collision body
-    this.collision = new CANNON.Body({ mass: 50 });
+    this.collision = new CANNON.Body({ mass: 200 });
     this.collision.material = mat;
 
     // Read GLTF

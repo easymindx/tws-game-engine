@@ -31,13 +31,13 @@ export class Car extends Vehicle implements IControllable {
   constructor(gltf: any) {
     super(gltf, {
       radius: 0.25,
-      suspensionStiffness: 20,
-      suspensionRestLength: 0.35,
+      frictionSlip: 1,
       maxSuspensionTravel: 1,
-      frictionSlip: 0.8,
-      dampingRelaxation: 2,
-      dampingCompression: 2,
-      rollInfluence: 0.8,
+      suspensionStiffness: 30,
+      suspensionRestLength: 0.3,
+      dampingRelaxation: 2.3,
+      dampingCompression: 4.4,
+      rollInfluence: 0.01,
     });
     this.readCarData(gltf);
 

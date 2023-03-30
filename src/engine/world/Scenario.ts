@@ -116,7 +116,6 @@ export class Scenario {
   }
 
   public launch(loadingManager: LoadingManager, world: World): void {
-    // console.log(this.spawnPoints)
     // this.spawnPoints.forEach((sp) => {
     //   sp.spawn(this.world.loadingManager, this.world);
     // });
