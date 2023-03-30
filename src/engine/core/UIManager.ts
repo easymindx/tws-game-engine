@@ -6,12 +6,6 @@ export class UIManager {
         : 'none';
   }
 
-  public static setLoadingScreenVisible(value: boolean): void {
-    document.getElementById('loading-screen').style.display = value
-      ? 'flex'
-      : 'none';
-  }
-
   public static setFPSVisible(value: boolean): void {
     document.getElementById('statsBox').style.display = value
       ? 'block'

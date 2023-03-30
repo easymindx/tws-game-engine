@@ -4,6 +4,7 @@ import { UIManager } from './UIManager';
 import { Scenario } from '../world/Scenario';
 import Swal from 'sweetalert2';
 import { World } from '../world/World';
+import { WorldEvent } from '../enums/WorldEvent';
 
 export class LoadingManager {
   public firstLoad = true;
@@ -18,8 +19,6 @@ export class LoadingManager {
     this.gltfLoader = new GLTFLoader();
 
     this.world.setTimeScale(0);
-    UIManager.setUserInterfaceVisible(false);
-    UIManager.setLoadingScreenVisible(true);
   }
 
   public loadGLTF(path: string, onLoadingFinished: (gltf: any) => void): void {
@@ -56,11 +55,7 @@ export class LoadingManager {
     if (this.isLoadingDone()) {
       if (this.onFinishedCallback !== undefined) {
         this.onFinishedCallback();
-      } else {
-        UIManager.setUserInterfaceVisible(true);
       }
-
-      UIManager.setLoadingScreenVisible(false);
     }
   }
 

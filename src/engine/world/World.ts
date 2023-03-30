@@ -31,6 +31,7 @@ import { Sky } from './Sky';
 import { Ocean } from './Ocean';
 import { ConnectionProtocol, LoadBalancing } from 'photon';
 import { PhotonEvent } from '../enums/PhotonEvent';
+import { WorldEvent } from '../enums/WorldEvent';
 
 declare global {
   interface Window {
@@ -73,6 +74,12 @@ export class World {
   private currScenarioID: string;
   private lastScenarioID: string;
 
+  /// event listeners
+  public onEvent: (code: WorldEvent, ...args) => void = (
+    _code: WorldEvent,
+    ..._args
+  ) => void 0;
+
   constructor(canvas: HTMLCanvasElement, worldScenePath?: string) {
     // WebGL not supported
     if (!Detector.webgl) {
@@ -109,6 +116,7 @@ export class World {
           .find((s) => s.id === this.currScenarioID)
           .createEntity(actor);
       });
+      this.onEvent(WorldEvent.JoinedRoom);
     };
 
     this.loadBalancingClient.onActorJoin = (actor) => {
@@ -218,18 +226,13 @@ export class World {
     // Load scene if path is supplied
     if (worldScenePath !== undefined) {
       const loadingManager = new LoadingManager(this);
-      loadingManager.onFinishedCallback = () => {
-        this.update(1, 1);
-        this.setTimeScale(1);
-        UIManager.setUserInterfaceVisible(true);
-      };
       loadingManager.loadGLTF(worldScenePath, (gltf) => {
         this.loadScene(loadingManager, gltf);
+        this.update(1, 1);
+        this.setTimeScale(1);
+        this.onEvent(WorldEvent.AssetLoaded);
       });
       this.loadingManager = loadingManager;
-    } else {
-      UIManager.setUserInterfaceVisible(true);
-      UIManager.setLoadingScreenVisible(false);
     }
 
     this.render(this);
