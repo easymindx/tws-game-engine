@@ -3,4 +3,5 @@ export enum WorldEvent {
   AssetLoaded = 'AssetLoaded',
   PhotonConnected = 'PhotonConnected',
   JoinedRoom = 'JoinedRoom',
+  RoomList = 'RoomList',
 }

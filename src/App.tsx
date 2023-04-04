@@ -13,7 +13,7 @@ export default function App() {
 
   const handleWorldEvent = (code: WorldEvent) => {
     if (code === WorldEvent.JoinedRoom) {
-      setTimeout(() => navigate('/game'), 500);
+      setTimeout(() => navigate(LINKS.game), 500);
     }
   };
 

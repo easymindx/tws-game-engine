@@ -104,10 +104,9 @@ export class World {
       this.loadBalancingClient.connectToRegionMaster('us');
     }
 
-    this.loadBalancingClient.onRoomList = (
-      _rooms: LoadBalancing.RoomInfo[]
-    ) => {
+    this.loadBalancingClient.onRoomList = (rooms: LoadBalancing.RoomInfo[]) => {
       this.loadBalancingClient.joinRandomOrCreateRoom();
+      this.onEvent(WorldEvent.PhotonConnected, rooms);
     };
 
     this.loadBalancingClient.onJoinRoom = (_createdByMe: boolean) => {
