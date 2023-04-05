@@ -13,7 +13,14 @@ module.exports = merge(commonConfig, {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: paths.public + '/assets', to: 'assets' }],
+      patterns: [
+        {
+          from: paths.public,
+          globOptions: {
+            ignore: ['**/index.html'],
+          },
+        },
+      ],
     }),
   ],
   devtool: 'source-map',
