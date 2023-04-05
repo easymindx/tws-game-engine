@@ -63,17 +63,6 @@ export class LoadingManager {
     if (this.onFinishedCallback === undefined) {
       this.onFinishedCallback = () => {
         this.world.update(1, 1);
-
-        Swal.fire({
-          title: scenario.descriptionTitle,
-          html: scenario.descriptionContent,
-          confirmButtonText: 'Play',
-          buttonsStyling: false,
-          onClose: () => {
-            this.world.setTimeScale(1);
-            UIManager.setUserInterfaceVisible(true);
-          },
-        });
       };
     }
   }

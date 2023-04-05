@@ -81,19 +81,6 @@ export class World {
   ) => void 0;
 
   constructor(canvas: HTMLCanvasElement, worldScenePath?: string) {
-    // WebGL not supported
-    if (!Detector.webgl) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'WebGL compatibility',
-        text: "This browser doesn't seem to have the required WebGL capabilities. The application may not work correctly.",
-        footer:
-          '<a href="https://get.webgl.org/" target="_blank">Click here for more information</a>',
-        showConfirmButton: false,
-        buttonsStyling: false,
-      });
-    }
-
     this.loadBalancingClient = new LoadBalancing.LoadBalancingClient(
       ConnectionProtocol.Ws,
       '019ea304-2fcb-4241-b676-7a08ba0d49ed',
@@ -107,12 +94,12 @@ export class World {
     };
 
     this.loadBalancingClient.onJoinRoom = (_createdByMe: boolean) => {
-      this.loadBalancingClient.myRoomActorsArray().forEach((actor) => {
-        const currScenario = this.scenarios.find(
-          (s) => s.id === this.currScenarioID
-        );
-        currScenario?.createEntity(actor);
-      });
+      // this.loadBalancingClient.myRoomActorsArray().forEach((actor) => {
+      //   const currScenario = this.scenarios.find(
+      //     (s) => s.id === this.currScenarioID
+      //   );
+      //   currScenario?.createEntity(actor);
+      // });
       this.onEvent(WorldEvent.JoinedRoom);
     };
 
