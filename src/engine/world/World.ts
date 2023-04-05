@@ -99,10 +99,6 @@ export class World {
       '019ea304-2fcb-4241-b676-7a08ba0d49ed',
       '1.0'
     );
-    // Connect to the master server
-    if (!this.loadBalancingClient.isInLobby()) {
-      this.loadBalancingClient.connectToRegionMaster('us');
-    }
 
     this.loadBalancingClient.onRoomList = (
       _rooms: LoadBalancing.RoomInfo[]
@@ -112,9 +108,10 @@ export class World {
 
     this.loadBalancingClient.onJoinRoom = (_createdByMe: boolean) => {
       this.loadBalancingClient.myRoomActorsArray().forEach((actor) => {
-        this.scenarios
-          .find((s) => s.id === this.currScenarioID)
-          .createEntity(actor);
+        const currScenario = this.scenarios.find(
+          (s) => s.id === this.currScenarioID
+        );
+        currScenario?.createEntity(actor);
       });
       this.onEvent(WorldEvent.JoinedRoom);
     };
@@ -231,6 +228,11 @@ export class World {
         this.update(1, 1);
         this.setTimeScale(1);
         this.onEvent(WorldEvent.AssetLoaded);
+
+        // Connect to the master server
+        if (!this.loadBalancingClient.isInLobby()) {
+          this.loadBalancingClient.connectToRegionMaster('us');
+        }
       });
       this.loadingManager = loadingManager;
     }
