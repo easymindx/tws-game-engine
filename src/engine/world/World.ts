@@ -214,7 +214,8 @@ export class World {
         this.loadScene(loadingManager, gltf);
         this.update(1, 1);
         this.setTimeScale(1);
-        this.onEvent(WorldEvent.AssetLoaded);
+
+        setTimeout(() => this.onEvent(WorldEvent.JoinedRoom), 500);
 
         // Connect to the master server
         if (!this.loadBalancingClient.isInLobby()) {
