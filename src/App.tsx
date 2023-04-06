@@ -12,8 +12,8 @@ export default function App() {
   const navigate = useNavigate();
 
   const handleWorldEvent = (code: WorldEvent) => {
-    if (code === WorldEvent.JoinedRoom) {
-      setTimeout(() => navigate('/game'), 500);
+    if (code === WorldEvent.AssetLoaded) {
+      setTimeout(() => navigate(LINKS.game), 1500);
     }
   };
 

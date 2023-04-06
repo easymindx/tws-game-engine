@@ -215,7 +215,7 @@ export class World {
         this.update(1, 1);
         this.setTimeScale(1);
 
-        setTimeout(() => this.onEvent(WorldEvent.JoinedRoom), 500);
+        this.onEvent(WorldEvent.AssetLoaded);
 
         // Connect to the master server
         if (!this.loadBalancingClient.isInLobby()) {
