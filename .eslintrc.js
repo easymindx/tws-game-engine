@@ -4,7 +4,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors.
   ],
-  ignorePatterns: ['/src/lib/**/*', '/public/**/*'],
+  ignorePatterns: ['/src/lib/**/*', '/public/**/*', '/src/styles/**/*'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
